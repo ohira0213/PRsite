@@ -1,0 +1,14 @@
+<% if @user.present? %>
+<!-- user_idがnilでなければ下記を表示する -->
+<div class="profile-container">
+  <h3 class="profile-name"><%= @user.name %></h3>
+  <%= image_tag @user.get_profile_image(100,100) %>
+  <% if @user.id == current_user.id %>
+  <!-- user_idがログイン中のidだった場合は下記を表示する -->
+    <p><%= link_to "プロフィール編集", edit_public_user_path(@user) %></p>
+  <% end %>
+<% else %>
+  <p>こちらはご覧いただけません</p>
+  <%= image_tag 'ozigi_neko.jpg', width: 500, height: 500 %>
+</div>
+<% end %>

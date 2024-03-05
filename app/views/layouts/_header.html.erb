@@ -1,0 +1,41 @@
+<header>
+  <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class = "container address">
+    <button type = "button" class = "btn btn-lg btn-outline-secondary">
+      <%= link_to public_root_path, class: "navbar-brand m-auto" do %>
+      </i><i class = "fa-solid fa-cake-candles"></i>
+      <% end %>
+      </div>
+    </button>
+    <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#navbarNavDropdown" aria-controls = "navbarNavDropdown" aria-expanded = "false" aria-label = "Toggle navigation">
+      <span class = "navbar-toggler-icon"></span>
+    </button>
+    <div class = "collapse navbar-collapse" id = "navbarNavDropdown">
+      <ul class = "navbar-nav ml-auto">
+          <% if admin_signed_in? %>
+          <!--adminにログインしている時に表示する-->
+          <% elsif user_signed_in? %>
+          <!--userでログインしている時に表示する-->
+            <li class="nav-item">
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to '投稿フォーム', new_public_post_path, class: 'nav-link text-dark' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'マイページ', public_user_path(current_user.id), class: 'nav-link text-dark' %>
+            </li>
+            <% else %>
+            <!--adminでもuserでもログインしていない時に表示する-->
+            <li class="nav-item">
+              <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
+            </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
