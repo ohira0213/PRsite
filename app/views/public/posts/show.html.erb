@@ -4,7 +4,9 @@
       <%= link_to public_post_path(@post.id) do %>
         <%= image_tag @post.get_post_image(500, 500) %>
       <% end %>
-      <%= image_tag @post.user.get_profile_image(100, 100) %>
+      <%= link_to public_user_path(@post.user) do %>
+        <%= image_tag @post.user.get_profile_image(100, 100) %>
+      <% end %>
       <p><%= @post.title %></p>
       <p><%= @post.text %></p>
       <p>ユーザー：<%= @post.user.name %></p>
