@@ -25,6 +25,9 @@
             <li class="nav-item">
               <%= link_to 'マイページ', public_user_path(current_user.id), class: 'nav-link text-dark' %>
             </li>
+            <li class="nav-item">
+              <%= link_to '投稿一覧', public_posts_path, class: 'nav-link text-dark' %>
+            </li>
             <% else %>
             <!--adminでもuserでもログインしていない時に表示する-->
             <li class="nav-item">

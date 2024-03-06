@@ -1,7 +1,7 @@
 class Public::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource)
-    public_root_path
+    public_posts_path
   end
 
   def destroy
@@ -12,6 +12,6 @@ class Public::SessionsController < Devise::SessionsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:name, :email, :password])
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:name])
   end
 end

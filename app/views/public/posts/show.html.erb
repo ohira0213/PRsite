@@ -1,18 +1,28 @@
 <div>
   <% if @post && @post.user.present? %>
-  <!-- user_idまたはpost_idがnilでなければ下記を表示する -->
-    <%= link_to public_post_path(@post.id) do %>
-      <%= image_tag @post.get_post_image(500, 500) %>
+    <!-- user_idまたはpost_idがnilでなければ下記を表示する -->
+      <%= link_to public_post_path(@post.id) do %>
+        <%= image_tag @post.get_post_image(500, 500) %>
+      <% end %>
+      <%= image_tag @post.user.get_profile_image(100, 100) %>
+      <p><%= @post.title %></p>
+      <p><%= @post.text %></p>
+      <p>ユーザー：<%= @post.user.name %></p>
+      <% if @post.user == current_user %>
+        <%= link_to "削除", public_post_path(@post), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+      <% end %>
+      <% if @post.favorited_by?(current_user) %>
+        <p>
+          <%= link_to public_post_favorites_path(@post), method: :delete do %>
+            <i class="fa-solid fa-thumbs-up"></i> <%= @post.favorites.count %>
+          <% end %>
+        </p>
+      <% else %>
+        <p>
+          <%= link_to public_post_favorites_path(@post), method: :post do %>
+            <i class="fa-regular fa-thumbs-up"></i> <%= @post.favorites.count %>
+          <% end %>
+        </p>
+      <% end %>
     <% end %>
-    <%= image_tag @post.user.get_profile_image(100, 100) %>
-    <p><%= @post.title %></p>
-    <p><%= @post.text %></p>
-    <p>ユーザー：<%= @post.user.name %></p>
-    <% if @post.user == current_user %>
-      <%= link_to "削除", public_post_path(@post), method: :delete, data: { confirm: "本当に削除しますか？" } %>
-    <% end %>
-  <% else %>
-    <p>こちらの投稿はご覧いただけません</p>
-    <%= image_tag 'ozigi_neko.jpg', width: 500, height: 500 %>
-  <% end %>
 </div>

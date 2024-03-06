@@ -9,9 +9,11 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     if @post.save
-      redirect_to public_posts_path, notice: "投稿しました"
+      flash[:notice] = "投稿しました"
+      redirect_to public_posts_path
     else
-      redirect_to new_public_post, alert: "投稿に失敗しました"
+      flash[:notice] = "投稿に失敗しました"
+      redirect_to new_public_post_path
     end
   end
 
@@ -21,16 +23,19 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-  #user_idまたはpost_idが見つからない時は、nilを返す
+  #指定されたuser_idまたはpost_idが見つからない時は、nilを返す
   rescue ActiveRecord::RecordNotFound
     @post = nil
     @user = nil
+    flash[:notice] = "指定された投稿が見つかりません"
+    redirect_to public_posts_path
   end
 
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to public_posts_path, notice: "削除しました"
+    flash[:notice] = "投稿を削除しました"
+    redirect_to public_posts_path
   end
 
   private

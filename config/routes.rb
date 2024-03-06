@@ -14,8 +14,9 @@ Rails.application.routes.draw do
 
   namespace :public, path: '' do
     root to: 'homes#top'
-    get 'homes/about' => 'homes#about',as: '/about'
-    resources :posts, only: [:new, :create, :index, :show, :destroy]
+    resources :posts, only: [:new, :create, :index, :show, :destroy] do
+      resource :favorites, only: [:index, :create, :destroy]
+    end
     resources :users, only: [:show, :edit, :update]
   end
 end

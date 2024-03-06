@@ -1,4 +1,5 @@
 <% if @posts.any? { |post| post.user.present? } %>
+<!-- 投稿がある場合は下記を表示する -->
   <% @posts.each do |post| %>
     <% if post.user.present? %>
     <!-- user_idとpost_idがnilでない投稿の場合は下記を表示する -->
@@ -12,7 +13,23 @@
         <p>ユーザー：<%= post.user.name %></p>
       </div>
     <% end %>
+    <% if post.favorited_by?(current_user) %>
+        <p>
+          <%= link_to public_post_favorites_path(post), method: :delete do %>
+            <i class="fa-solid fa-thumbs-up"></i> <%= post.favorites.count %>
+          <% end %>
+        </p>
+      <% else %>
+        <p>
+          <%= link_to public_post_favorites_path(post), method: :post do %>
+            <i class="fa-regular fa-thumbs-up"></i> <%= post.favorites.count %>
+          <% end %>
+        </p>
+      <% end %>
   <% end %>
 <% else %>
-  <p>投稿はありません</p>
+  <p>
+    まだ投稿はありません<br>
+    投稿してみましょう！
+  </p>
 <% end %>

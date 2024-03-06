@@ -7,8 +7,4 @@
   <!-- user_idがログイン中のidだった場合は下記を表示する -->
     <p><%= link_to "プロフィール編集", edit_public_user_path(@user) %></p>
   <% end %>
-<% else %>
-  <p>こちらはご覧いただけません</p>
-  <%= image_tag 'ozigi_neko.jpg', width: 500, height: 500 %>
-</div>
 <% end %>

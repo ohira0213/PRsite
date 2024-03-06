@@ -1,0 +1,2 @@
+module Use::FavoritesHelper
+end
