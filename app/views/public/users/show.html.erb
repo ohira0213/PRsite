@@ -7,4 +7,6 @@
   <!-- user_idがログイン中のidだった場合は下記を表示する -->
     <p><%= link_to "プロフィール編集", edit_public_user_path(@user) %></p>
   <% end %>
+
+  <%= render "public/favorites/favorite", favorites: @favorites %>
 <% end %>

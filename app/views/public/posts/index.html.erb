@@ -7,15 +7,10 @@
         <%= link_to public_post_path(post.id) do %>
           <%= image_tag post.get_post_image(500, 500) %>
         <% end %>
-        <%= link_to public_user_path(post.user) do %>
-          <%= image_tag post.user.get_profile_image(100, 100) %>
-        <% end %>
         <p><%= post.title %></p>
         <p><%= post.text %></p>
-        <p>ユーザー：<%= post.user.name %></p>
       </div>
-    <% end %>
-    <% if post.favorited_by?(current_user) %>
+      <% if post.favorited_by?(current_user) %>
         <p>
           <%= link_to public_post_favorites_path(post), method: :delete do %>
             <i class="fa-solid fa-thumbs-up"></i> <%= post.favorites.count %>
@@ -28,6 +23,11 @@
           <% end %>
         </p>
       <% end %>
+      <%= link_to public_user_path(post.user) do %>
+        <%= image_tag post.user.get_profile_image(100, 100) %>
+      <% end %>
+      <p>ユーザー：<%= post.user.name %></p>
+    <% end %>
   <% end %>
 <% else %>
   <p>

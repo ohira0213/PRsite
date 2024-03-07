@@ -15,8 +15,10 @@ Rails.application.routes.draw do
   namespace :public, path: '' do
     root to: 'homes#top'
     resources :posts, only: [:new, :create, :index, :show, :destroy] do
-      resource :favorites, only: [:index, :create, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
-    resources :users, only: [:show, :edit, :update]
+    resources :users, only: [:show, :edit, :update] do
+      get 'withdrawal', to: 'users#withdrawal', as: 'withdrawal'
+    end
   end
 end

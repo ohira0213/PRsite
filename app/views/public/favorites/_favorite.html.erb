@@ -1,0 +1,28 @@
+<% if favorites.present? %>
+  <% favorites.each do |favorite| %>
+    <div>
+      <%= link_to public_post_path(favorite.post) do %>
+        <%= image_tag favorite.post.get_post_image(500, 500) %>
+      <% end %>
+      <p><%= favorite.post.title %></p>
+      <p><%= favorite.post.text %></p>
+      <% if favorite.post.favorited_by?(current_user) %>
+        <p>
+          <%= link_to public_post_favorites_path(favorite.post), method: :delete do %>
+            <i class="fa-solid fa-thumbs-up"></i> <%= favorite.post.favorites.count %>
+          <% end %>
+        </p>
+      <% else %>
+        <p>
+          <%= link_to public_post_favorites_path(favorite.post), method: :post do %>
+            <i class="fa-regular fa-thumbs-up"></i> <%= favorite.post.favorites.count %>
+          <% end %>
+        </p>
+      <% end %>
+      <%= link_to public_user_path(favorite.post.user) do %>
+        <%= image_tag favorite.post.user.get_profile_image(100, 100) %>
+      <% end %>
+      <p>ユーザー：<%= favorite.post.user.name %></p>
+    </div>
+  <% end %>
+<% end %>
