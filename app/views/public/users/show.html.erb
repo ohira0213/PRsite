@@ -1,12 +1,53 @@
 <% if @user.present? %>
 <!-- user_idがnilでなければ下記を表示する -->
-<div class="profile-container">
-  <h3 class="profile-name"><%= @user.name %></h3>
-  <%= image_tag @user.get_profile_image(100,100) %>
-  <% if @user.id == current_user.id %>
-  <!-- user_idがログイン中のidだった場合は下記を表示する -->
-    <p><%= link_to "プロフィール編集", edit_public_user_path(@user) %></p>
+  <div class="profile-container">
+    <%= image_tag @user.get_profile_image(50,50) %>
+    <h3 class="profile-name"><%= @user.name %></h3>
+    <h5 class="profile-introduction"><%= @user.introduction %></h4>
+    <th>フォロー</th>
+    <th><%= link_to @user.followings.count, public_user_followings_path(@user) %></th>
+    <th>フォロワー</th>
+    <th><%= link_to @user.followers.count, public_user_followers_path(@user) %></th>
+    <% if @user.id == current_user.id %>
+    <!-- user_idがログイン中のidだった場合は下記を表示する -->
+      <p><%= link_to "プロフィール編集", edit_public_user_path(@user) %></p>
+    <% else %>
+      <% if current_user.following?(@user) %>
+        <%= link_to "フォロー外す", public_user_relationships_path(@user.id), method: :delete %>
+      <% else %>
+        <%= link_to "フォローする", public_user_relationships_path(@user.id), method: :post %>
+      <% end %>
+    <% end %>
+  </div>
+  <% @posts.each do |post| %>
+    <div>
+      <%= link_to public_post_path(post.id) do %>
+        <%= image_tag post.get_post_image(500, 500) %>
+      <% end %>
+      <p><%= post.title %></p>
+      <p><%= post.text %></p>
+      <p><%= post.created_at.strftime('%Y/%m/%d') %></p>
+    </div>
+    <%= link_to public_post_path(post.id) do %>
+      <p><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></p>
+    <% end %>
+    <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
+      <%= f.text_area :comment, rows: '5', placeholder: "コメント" %>
+      <%= f.submit "送信する" %>
+    <% end %>
+    <% if post.favorited_by?(current_user) %>
+      <p>
+        <%= link_to public_post_favorites_path(post), method: :delete do %>
+          <i class="fa-solid fa-thumbs-up"></i> <%= post.favorites.count %>
+        <% end %>
+      </p>
+    <% else %>
+      <p>
+        <%= link_to public_post_favorites_path(post), method: :post do %>
+          <i class="fa-regular fa-thumbs-up"></i> <%= post.favorites.count %>
+        <% end %>
+      </p>
+    <% end %>
   <% end %>
-
-  <%= render "public/favorites/favorite", favorites: @favorites %>
+  <%= link_to "いいねした一覧", public_user_favorite_path(@user), class: "btn btm-lg btn-light btn-block mb-3" %>
 <% end %>

@@ -6,7 +6,7 @@ class Public::FavoritesController < ApplicationController
       favorite.save
       redirect_to request.referer
     else
-      flash[:notice] = "指定された投稿が見つかりません"
+      flash[:notice] = "指定された投稿が見つかりません。"
       redirect_to public_posts_path
     end
   end
@@ -18,8 +18,14 @@ class Public::FavoritesController < ApplicationController
       favorite.destroy
       redirect_to request.referer
     else
-      flash[:notice] = "指定された投稿が見つかりません"
+      flash[:notice] = "指定された投稿が見つかりません。"
       redirect_to public_posts_path
     end
+  end
+  
+  private
+
+  def favorite_params
+    params.require(:favorite).permit(:user_id, :post_id,)
   end
 end

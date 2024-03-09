@@ -1,32 +1,51 @@
-<div>
-  <% if @post && @post.user.present? %>
-    <!-- user_idまたはpost_idがnilでなければ下記を表示する -->
-    <%= link_to public_post_path(@post.id) do %>
-      <%= image_tag @post.get_post_image(500, 500) %>
-    <% end %>
-    <p><%= @post.title %></p>
-    <p><%= @post.text %></p>
-    <% if @post.user == current_user %>
-      <%= link_to "削除", public_post_path(@post), method: :delete, data: { confirm: "本当に削除しますか？" } %>
-    <% end %>
-    <% if @post.favorited_by?(current_user) %>
-      <p>
-        <%= link_to public_post_favorites_path(@post), method: :delete do %>
-          <i class="fa-solid fa-thumbs-up"></i> <%= @post.favorites.count %>
-        <% end %>
-      </p>
-    <% else %>
-      <p>
-        <%= link_to public_post_favorites_path(@post), method: :post do %>
-          <i class="fa-regular fa-thumbs-up"></i> <%= @post.favorites.count %>
-        <% end %>
-      </p>
-    <% end %>
-    <%= link_to public_user_path(@post.user) do %>
-      <%= image_tag @post.user.get_profile_image(100, 100) %>
-    <% end %><p>ユーザー：<%= @post.user.name %></p>
-  <% end %>
-</div>
-<div>
-  <%= link_to "投稿一覧に戻る", public_posts_path, class: 'btn btm-lg btn-light' %>
-</div>
+<% if @post && @post.user.present? %>
+<!-- user_idまたはpost_idがnilでなければ下記を表示する -->
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto">
+        <table>
+          <tr>
+            <td>
+              <%= link_to public_user_path(@post.user) do %>
+                <%= image_tag @post.user.get_profile_image(50, 50) %>
+              <% end %>
+              <%= @post.user.name %><br>
+              <%= @post.title %><br>
+              <%= image_tag @post.get_post_image(500, 500) %><br>
+              <%= @post.text %><br>
+              <%= @post.created_at.strftime('%Y/%m/%d') %><br>
+              <% if @post.favorited_by?(current_user) %>
+                <%= link_to public_post_favorites_path(@post), method: :delete do %>
+                  <i class="fa-solid fa-thumbs-up"></i> <%= @post.favorites.count %>
+                <% end %>
+              <% else %>
+                <%= link_to public_post_favorites_path(@post), method: :post do %>
+                  <i class="fa-regular fa-thumbs-up"></i> <%= @post.favorites.count %>
+                <% end %>
+              <% end %>
+              <i class="fa-regular fa-comment"></i> <%= @post.post_comments.count %>
+              <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
+                <%= f.text_area :comment, rows: '3', placeholder: "コメント",style: "width: 100%;" %>
+                <%= f.submit "送信する" %>
+              <% end %><br>
+              <% @post.post_comments.each do |post_comment| %>
+                <%= image_tag post_comment.user.get_profile_image(30,30) %>
+                <%= post_comment.user.name %><br>
+                <%= post_comment.comment %>
+                <% if post_comment.user == current_user %>
+                  <%= link_to "削除", public_post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "本当に削除しますか？" } %>
+                <% end %><br>
+                <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+              <% end %><br>
+              <% if @post.user == current_user %>
+                <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "本当に削除しますか？" } %>
+              <% end %>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+

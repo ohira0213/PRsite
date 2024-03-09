@@ -12,22 +12,31 @@ class Public::PostsController < ApplicationController
       flash[:notice] = "投稿しました。"
       redirect_to public_posts_path
     else
-      flash[:error] = "投稿に失敗しました。"
-      redirect_to new_public_post_path
+      error_messages = []
+       # エラーメッセージを格納するための配列を初期化
+      error_messages << "タイトルを入力してください。" if @post.errors[:title].present?
+      # タイトルに関するエラーが存在する場合
+      error_messages << "PR文を入力してください。" if @post.errors[:text].present?
+      # PR文に関するエラーが存在する場合
+      flash[:alert] = "投稿ができませんでした。" + error_messages.join(" ")
+      # エラーメッセージを結合してフラッシュメッセージとして設定
+      redirect_to request.referer
     end
   end
 
   def index
     @posts = Post.all
+    @post_comment = PostComment.new
   end
 
   def show
     @post = Post.find(params[:id])
+    @post_comment = PostComment.new
   rescue ActiveRecord::RecordNotFound
   #指定されたuser_idまたはpost_idが見つからない時は、nilを返す
     @post = nil
     @user = nil
-    flash[:error] = "指定された投稿が見つかりません。"
+    flash[:alert] = "指定された投稿が見つかりません。"
     redirect_to public_posts_path
   end
 

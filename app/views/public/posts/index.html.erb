@@ -1,37 +1,57 @@
 <% if @posts.any? { |post| post.user.present? } %>
 <!-- 投稿がある場合は下記を表示する -->
-  <% @posts.each do |post| %>
-    <% if post.user.present? %>
-    <!-- user_idとpost_idがnilでない投稿の場合は下記を表示する -->
-      <div>
-        <%= link_to public_post_path(post.id) do %>
-          <%= image_tag post.get_post_image(500, 500) %>
-        <% end %>
-        <p><%= post.title %></p>
-        <p><%= post.text %></p>
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto">
+        <table class = "table">
+          <% @posts.each do |post| %>
+            <% if post.user.present? %>
+            <!-- user_idとpost_idがnilでない投稿の場合は下記を表示する -->
+              <tr>
+                <td>
+                  <%= link_to public_user_path(post.user) do %>
+                    <%= image_tag post.user.get_profile_image(50, 50) %>
+                  <% end %>
+                  <%= post.user.name %><br>
+                  <%= post.title %><br>
+                  <%= link_to public_post_path(post.id) do %>
+                    <%= image_tag post.get_post_image(1000, 1000) %>
+                  <% end %><br>
+                  <%= post.text %><br>
+                  <%= post.created_at.strftime('%Y/%m/%d') %><br>
+                  <% if post.favorited_by?(current_user) %>
+                    <%= link_to public_post_favorites_path(post), method: :delete do %>
+                      <i class="fa-solid fa-thumbs-up"></i> <%= post.favorites.count %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to public_post_favorites_path(post), method: :post do %>
+                      <i class="fa-regular fa-thumbs-up"></i> <%= post.favorites.count %>
+                    <% end %>
+                  <% end %>
+                  <%= link_to public_post_path(post.id) do %>
+                    <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
+                  <% end %>
+                  <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
+                    <%= f.text_area :comment, rows: '3', placeholder: "コメント",style: "width: 100%;" %>
+                    <%= f.submit "送信する" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
       </div>
-      <% if post.favorited_by?(current_user) %>
-        <p>
-          <%= link_to public_post_favorites_path(post), method: :delete do %>
-            <i class="fa-solid fa-thumbs-up"></i> <%= post.favorites.count %>
-          <% end %>
-        </p>
-      <% else %>
-        <p>
-          <%= link_to public_post_favorites_path(post), method: :post do %>
-            <i class="fa-regular fa-thumbs-up"></i> <%= post.favorites.count %>
-          <% end %>
-        </p>
-      <% end %>
-      <%= link_to public_user_path(post.user) do %>
-        <%= image_tag post.user.get_profile_image(100, 100) %>
-      <% end %>
-      <p>ユーザー：<%= post.user.name %></p>
-    <% end %>
-  <% end %>
+    </div>
+  </div>
 <% else %>
-  <p>
-    まだ投稿はありません<br>
-    投稿してみましょう！
-  </p>
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto">
+        <th>
+          まだ投稿はありません。<br>
+          投稿してみましょう！
+        </th>
+      </div>
+    </div>
+  </div>
 <% end %>

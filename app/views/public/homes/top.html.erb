@@ -2,16 +2,16 @@
   <div class="row">
     <div class="mx-auto">
       <h3>商品PRサイト</h3>
-      <p>当サイトは、企業様が商品紹介の投稿を行えるサイトです。</p>
+      <p>当サイトは、企業様が商品紹介の投稿を行うサイトです。</p>
       <% unless user_signed_in? %>
-      <div class="btn-wrapper col-3 mx-auto">
-        <div class="row">
-          <%= link_to "Sign up", new_user_registration_path, class: "btn btm-lg btn-light btn-block mb-3" %>
+        <div class="btn-wrapper col-3 mx-auto">
+          <div class="row">
+            <%= link_to "Sign up", new_user_registration_path, class: "btn btm-lg btn-light btn-block mb-3" %>
+          </div>
+          <div class="row">
+            <%= link_to "Log in", new_user_session_path, class: "btn btm-lg btn-light btn-block" %>
+          </div>
         </div>
-        <div class="row">
-          <%= link_to "Log in", new_user_session_path, class: "btn btm-lg btn-light btn-block" %>
-        </div>
-      </div>
       <% end %>
     </div>
   </div>

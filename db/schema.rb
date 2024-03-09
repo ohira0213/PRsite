@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_06_060330) do
+ActiveRecord::Schema.define(version: 2024_03_09_112520) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -59,10 +59,25 @@ ActiveRecord::Schema.define(version: 2024_03_06_060330) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "post_comments", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "post_id"
+    t.text "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer "user_id"
     t.string "title"
     t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -74,6 +89,7 @@ ActiveRecord::Schema.define(version: 2024_03_06_060330) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name"
+    t.string "introduction"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_active", default: true, null: false
