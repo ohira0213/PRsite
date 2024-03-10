@@ -3,10 +3,8 @@
     <div class="mx-auto">
       <h3>新規投稿</h3>
       <%= form_with model: @post, url: public_posts_path, method: :post do |f| %>
-        <h6>タイトル</h6>
-        <%= f.text_field :title %>
-        <h6>紹介文</h6>
-        <%= f.text_area :text %>
+        <h6>商品紹介</h6>
+        <%= f.text_area :text, rows: '10', placeholder: "商品紹介文を入力", style: "width: 100%;" %>
         <h6>イメージ画像</h6>
         <%= f.file_field :post_image, accept: "image/*" %>
         <%= f.submit '投稿' %>

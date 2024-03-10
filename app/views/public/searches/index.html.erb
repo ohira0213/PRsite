@@ -1,0 +1,86 @@
+<table class="table table-hover table-inverse">
+  <% if @range == "User" %>
+    <% if params[:search] == "perfect_match" %>
+      <h2>「<%= params[:word] %>」のユーザーの完全一致検索結果</h2>
+    <% elsif params[:search]  == "partial_match" %>
+      <h2>「<%= params[:word] %>」のユーザーの部分検索結果</h2>
+    <% end %>
+    <% if @users.empty? %>
+      <div class="container">
+        <div class="row">
+          <div class="mx-auto">
+            <th class="text-center">
+              該当する結果はありません。
+            </th>
+          </div>
+        </div>
+      </div>
+    <% else %>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <%= link_to public_user_path(user) do %>
+              <%= image_tag user.get_profile_image(50,50) %>
+            <% end %>
+          </td>
+          <td><%= user.name %></td>
+          <td><%= user.introduction %></td>
+          <td>
+            <% unless user.id == current_user.id %>
+              <% if current_user.following?(user) %>
+                <%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete %>
+              <% else %>
+                <%= link_to "フォローする", public_user_relationships_path(user), method: :post %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+<% else %>
+  <% if params[:search] == "perfect_match" %>
+    <h2>「<%= params[:word] %>」の投稿の完全一致検索結果</h2>
+  <% elsif params[:search]  == "partial_match" %>
+    <h2>「<%= params[:word] %>」の投稿の部分検索結果</h2>
+  <% end %>
+  <% if @posts.empty? %>
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto">
+          <th class="text-center">
+            該当する結果はありません。
+          </th>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td>
+            <%= link_to public_post_path(post) do %>
+              <%= image_tag post.get_post_image(50,50) %>
+            <% end %>
+          </td>
+          <td><%= post.text %></td>
+          <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
+          <td><%= render "public/favorites/favorite", post: post %></td>
+          <td>
+            <%= link_to public_post_path(post) do %>
+              <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
+            <% end %>
+          </td>
+          <td>
+            <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
+              <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力",style: "width: 80%;" %>
+              <%= f.submit "送信する" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+<% end %>
+</table>

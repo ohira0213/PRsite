@@ -14,8 +14,6 @@ class Public::PostsController < ApplicationController
     else
       error_messages = []
        # エラーメッセージを格納するための配列を初期化
-      error_messages << "タイトルを入力してください。" if @post.errors[:title].present?
-      # タイトルに関するエラーが存在する場合
       error_messages << "PR文を入力してください。" if @post.errors[:text].present?
       # PR文に関するエラーが存在する場合
       flash[:alert] = "投稿ができませんでした。" + error_messages.join(" ")
@@ -50,6 +48,6 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :title, :text, :post_image)
+    params.require(:post).permit(:user_id, :text, :post_image)
   end
 end

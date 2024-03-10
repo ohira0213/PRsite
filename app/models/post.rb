@@ -5,7 +5,6 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :post_comments, dependent: :destroy
 
-  validates :title, presence: true
   validates :text, presence: true
 
   def get_post_image(width, height)
@@ -18,5 +17,13 @@ class Post < ApplicationRecord
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
+  end
+
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @post = Post.where("text LIKE?","#{word}")
+    elsif search == "partial_match"
+      @post = Post.where("text LIKE?","%#{word}%")
+    end
   end
 end

@@ -2,33 +2,20 @@
 <!--いいねしたものがnilでなく、かつ空でない場合は表示する。-->
   <% @favorites.each do |favorite| %>
     <div>
+      <p><%= favorite.post.text %></p>
       <%= link_to public_post_path(favorite.post) do %>
         <%= image_tag favorite.post.get_post_image(500, 500) %>
       <% end %>
-      <p><%= favorite.post.title %></p>
-      <p><%= favorite.post.text %></p>
       <p><%= favorite.post.created_at.strftime('%Y/%m/%d') %></p>
     </div>
     <%= link_to public_post_path(favorite.post.id) do %>
       <p><i class="fa-regular fa-comment"></i> <%= favorite.post.post_comments.count %></p>
     <% end %>
     <%= form_with url: public_post_post_comments_path(favorite.post), model: @post_comment do |f| %>
-      <%= f.text_area :comment, rows: '5', placeholder: "コメント" %>
+      <%= f.text_area :comment, rows: '5', placeholder: "コメントを入力" %>
       <%= f.submit "送信する" %>
     <% end %>
-    <% if favorite.post.favorited_by?(current_user) %>
-      <p>
-        <%= link_to public_post_favorites_path(favorite.post), method: :delete do %>
-          <i class="fa-solid fa-thumbs-up"></i> <%= favorite.post.favorites.count %>
-        <% end %>
-      </p>
-    <% else %>
-      <p>
-        <%= link_to public_post_favorites_path(favorite.post), method: :post do %>
-          <i class="fa-regular fa-thumbs-up"></i> <%= favorite.post.favorites.count %>
-        <% end %>
-      </p>
-    <% end %>
+    <p><%= render "public/favorites/favorite", post: favorite.post %></p>
     <%= link_to public_user_path(favorite.post.user) do %>
       <%= image_tag favorite.post.user.get_profile_image(100, 100) %>
     <% end %>
