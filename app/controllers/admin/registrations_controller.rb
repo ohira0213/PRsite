@@ -1,2 +1,2 @@
-class Admin::RegistrationsController < Devise::RegistrationsController
+class Admin::SessionsController < Devise::SessionsController
 end

@@ -14,12 +14,20 @@ class Public::RelationshipsController < ApplicationController
   def followings
     user = User.find(params[:user_id])
     @users = user.followings
+    if @post.user.is_active == false
+      flash[:alert] = "指定された投稿が見つかりません。"
+      redirect_to public_posts_path
+    end
     @post = user.posts.first
   end
 
   def followers
     user = User.find(params[:user_id])
     @users = user.followers
+    if @post.user.is_active == false
+      flash[:alert] = "指定された投稿が見つかりません。"
+      redirect_to public_posts_path
+    end
     @post = user.posts.first
   end
 

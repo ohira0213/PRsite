@@ -1,9 +1,10 @@
 <% if @user.present? %>
 <!-- user_idがnilでなければ下記を表示する -->
-  <div class="profile-container">
+  <div class="container">
     <%= image_tag @user.get_profile_image(50,50) %>
     <h3 class="profile-name"><%= @user.name %></h3>
     <h5 class="profile-introduction"><%= @user.introduction %></h4>
+    <% if current_user.email != "guest@example.com" %>
     <th>フォロー</th>
     <th><%= link_to @user.followings.count, public_user_followings_path(@user) %></th>
     <th>フォロワー</th>
@@ -18,16 +19,17 @@
         <%= link_to "フォローする", public_user_relationships_path(@user), method: :post %>
       <% end %>
     <% end %>
-  </div>
+    <% end %>
   <% @posts.each do |post| %>
     <div>
-      <%= link_to public_post_path(post.id) do %>
+      <%= link_to public_post_path(post) do %>
         <%= image_tag post.get_post_image(500, 500) %>
       <% end %>
       <p><%= post.text %></p>
       <p><%= post.created_at.strftime('%Y/%m/%d') %></p>
     </div>
-    <%= link_to public_post_path(post.id) do %>
+    <% if @user.id == current_user.id %>
+    <%= link_to public_post_path(post) do %>
       <p><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></p>
     <% end %>
     <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
@@ -38,3 +40,6 @@
   <% end %>
   <%= link_to "いいねした一覧", public_user_favorite_path(@user), class: "btn btm-lg btn-light btn-block mb-3" %>
 <% end %>
+<% end %>
+</div>
+

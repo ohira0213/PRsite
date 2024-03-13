@@ -1,21 +1,11 @@
-<div class="d-flex justify-content-center mb-2">
-  <%= render "public/searches/search" %>
-</div>
-<% if @posts.empty? %>
+<% if !@posts.empty? %>
+<!--空でないの場合のみ表示する-->
   <div class="container">
     <div class="row">
       <div class="mx-auto">
-        <th>
-          まだ投稿はありません。<br>
-          投稿してみましょう！
-        </th>
-      </div>
-    </div>
-  </div>
-<% else %>
-  <div class="container">
-    <div class="row">
-      <div class="mx-auto">
+        <div class="mb-1">
+            <%= render "public/searches/search" %>
+          </div>
         <table class = "table">
           <% @posts.each do |post| %>
             <% if post.user.present? %>
@@ -31,6 +21,7 @@
                   <% end %><br>
                   <%= post.text %><br>
                   <%= post.created_at.strftime('%Y/%m/%d') %><br>
+                  <% if current_user.email != "guest@example.com" %>
                   <%= render "public/favorites/favorite", post: post %>
                   <%= link_to public_post_path(post) do %>
                     <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
@@ -39,11 +30,23 @@
                     <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力", style: "width: 100%;" %>
                     <%= f.submit "送信する" %>
                   <% end %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
           <% end %>
         </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto">
+        <th>
+          まだ投稿はありません。<br>
+          投稿してみましょう！
+        </th>
       </div>
     </div>
   </div>

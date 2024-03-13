@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :admin, controllers: {
+  devise_for :admin, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
   }
 
@@ -8,8 +8,13 @@ Rails.application.routes.draw do
     sessions: 'public/sessions'
   }
 
+  devise_scope :user do
+    post "public/guest_sign_in", to: "public/sessions#guest_sign_in"
+  end
+
   namespace :admin do
     root to: 'homes#top'
+    resources :users, only: [:index, :edit, :update]
   end
 
   namespace :public, path: '' do

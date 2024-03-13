@@ -22,6 +22,6 @@
     <p>ユーザー：<%= favorite.post.user.name %></p>
   <% end %>
 <% else %>
-  <p>まだいいねした投稿はありません。いいねしてみましょう！</p>
+  <p>まだいいねした投稿はありません。</p>
 <% end %>
 <%= link_to "ユーザー情報に戻る", public_user_path(@user), class: "btn btn-lg btn-light btn-block mb-3" %>

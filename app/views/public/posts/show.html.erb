@@ -13,28 +13,28 @@
               <%= image_tag @post.get_post_image(500, 500) %><br>
               <%= @post.text %><br>
               <%= @post.created_at.strftime('%Y/%m/%d') %><br>
-              
-              <%= render "public/favorites/favorite", post: @post %>
-              
-              <i class="fa-regular fa-comment"></i> <%= @post.post_comments.count %>
-              <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
-                <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力",style: "width: 100%;" %>
-                <%= f.submit "送信する" %>
-              <% end %><br>
-              <% @post.post_comments.each do |post_comment| %>
-                <%= image_tag post_comment.user.get_profile_image(30,30) %>
-                <%= post_comment.user.name %><br>
-                <%= post_comment.comment %>
-                <% if post_comment.user == current_user %>
-                  <%= link_to "削除", public_post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "本当に削除しますか？" } %>
+              <% if current_user.email != "guest@example.com" %>
+                <%= render "public/favorites/favorite", post: @post %>
+                <i class="fa-regular fa-comment"></i> <%= @post.post_comments.count %>
+                <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
+                  <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力",style: "width: 100%;" %>
+                  <%= f.submit "送信する" %>
                 <% end %><br>
-                <%= post_comment.created_at.strftime('%Y/%m/%d') %>
-              <% end %><br>
-              <% if @post.user == current_user %>
-                <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "本当に削除しますか？" } %>
+                <% @post.post_comments.each do |post_comment| %>
+                  <%= image_tag post_comment.user.get_profile_image(30,30) %>
+                  <%= post_comment.user.name %><br>
+                  <%= post_comment.comment %>
+                  <% if post_comment.user == current_user %>
+                    <%= link_to "削除", public_post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "本当に削除しますか？" } %>
+                  <% end %><br>
+                  <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+                <% end %><br>
+                <% if @post.user == current_user %>
+                  <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "本当に削除しますか？" } %>
+                <% end %>
               <% end %>
-              </td>
-            </tr>
+            </td>
+          </tr>
         </table>
       </div>
     </div>

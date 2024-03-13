@@ -14,16 +14,16 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
 
   validates :name, presence: true
-  validates :introduction, length: { maximum: 50 }
+  validates :introduction, length: { maximum: 15 }
 
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/default_profile_image.png')
-      profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+      profile_image.attach(io: File.open(file_path), filename: 'default_profile_image.png', content_type: 'image/png')
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
-  
+
   def follow(user)
     active_relationships.create(followed_id: user.id)
   end
@@ -37,10 +37,10 @@ class User < ApplicationRecord
   end
 
   def user_status
-    if is_active == false
-      "退会"
+    if is_active == true
+      "継続"
     else
-      "有効"
+      "退会"
     end
   end
 
@@ -49,7 +49,20 @@ class User < ApplicationRecord
     #現在のメソッドの親クラスのメソッドを呼び出している
     #ユーザーがis_activeである場合にのみログインを許可する
   end
-  
+
+  GUEST_USER_EMAIL = "guest@example.com"
+
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = "guestuser"
+    end
+  end
+
+  def guest_user?
+    email == GUEST_USER_EMAIL
+  end
+
   def self.looks(search, word)
     if search == "perfect_match"
       @user = User.where("name LIKE?","#{word}")

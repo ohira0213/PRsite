@@ -3,13 +3,16 @@
     <div class="mx-auto">
       <h3>商品PRサイト</h3>
       <p>当サイトは、企業様が商品紹介の投稿を行うサイトです。</p>
-      <% unless user_signed_in? %>
-        <div class="btn-wrapper col-3 mx-auto">
+      <% unless (user_signed_in? && !admin_signed_in?) || (!user_signed_in? && admin_signed_in?) %>
+        <div class="btn-wrapper col-8 mx-auto">
           <div class="row">
-            <%= link_to "Sign up", new_user_registration_path, class: "btn btm-lg btn-light btn-block mb-3" %>
+            <%= link_to "ゲストログイン（閲覧のみ）", public_guest_sign_in_path, class: "btn btn-light btn-block mb-3 sign_in", method: :post %>
           </div>
           <div class="row">
-            <%= link_to "Log in", new_user_session_path, class: "btn btm-lg btn-light btn-block" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light btn-block mb-3" %>
+          </div>
+          <div class="row">
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-light btn-block" %>
           </div>
         </div>
       <% end %>
