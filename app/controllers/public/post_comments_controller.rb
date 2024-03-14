@@ -7,11 +7,14 @@ class Public::PostCommentsController < ApplicationController
       flash[:notice] = "コメントを投稿しました。"
       redirect_to public_post_path(post.id)
     else
-      error_messages = []
-      error_messages << "コメントを入力してください。" if post_comment_params[:comment].blank?
-      error_messages << "コメントは100文字以内で入力してください。" if post_comment_params[:comment].to_s.length > 100
-      flash[:alert] = "コメントが投稿できませんでした。" + error_messages.join(" ") unless error_messages.empty?
-      redirect_to request.referer
+      if post_comment_params[:comment].blank?
+        flash[:alert] =  "コメントを入力してください。"
+        redirect_to request.referer
+      end
+      if post_comment_params[:comment].to_s.length > 30
+        flash[:alert] =  "コメントは30文字以内で入力してください。"
+        redirect_to request.referer
+      end
     end
   end
 

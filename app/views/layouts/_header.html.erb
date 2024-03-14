@@ -1,4 +1,4 @@
-<header class = "mb-3" style = "background-color: #f7f7f7;">
+<header>
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand p-3" href = "/"><%= image_tag('logo.png', size: '130x130') %></a>
     <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#navbarNavDropdown" aria-controls = "navbarNavDropdown" aria-expanded = "false" aria-label = "Toggle navigation">
@@ -20,13 +20,13 @@
         <% elsif user_signed_in? %>
         <!--userでログインしている時に表示する-->
           <li class="nav-item">
-            <%= link_to "投稿フォーム", new_public_post_path, class: "btn btn-light nav-link" %>
+            <%= link_to "新規投稿", new_public_post_path, class: "btn btn-light nav-link" %>
           </li>
           <li class="nav-item ml-3">
             <%= link_to "投稿一覧", public_posts_path, class: "btn btn-light nav-link" %>
           </li>
           <li class="nav-item ml-3">
-            <%= link_to "マイページ", public_user_path(current_user.id), class: "btn btn-light nav-link" %>
+            <%= link_to "Myページ", public_user_path(current_user.id), class: "btn btn-light nav-link" %>
           </li>
           <li class="nav-item ml-3">
             <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-light nav-link" %>
@@ -37,10 +37,10 @@
             <%= link_to "ゲストログイン（閲覧のみ）", public_guest_sign_in_path, class: "btn btn-light nav-link sign_in", method: :post %>
           </li>
           <li class="nav-item ml-3">
-            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light nav-link text-dark" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light nav-link" %>
           </li>
           <li class="nav-item ml-3">
-            <%= link_to "ログイン", new_user_session_path, class: "btn btn-light nav-link text-dark" %>
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-light nav-link" %>
           </li>
         <% end %>
       </ul>

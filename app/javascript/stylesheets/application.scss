@@ -1,5 +1,39 @@
 @use '~bootstrap/scss/bootstrap';
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #E5E5E5;
+}
+
+main {
+  flex-grow: 1;
+  background-color: #f7f7f7;
+}
+
 .container{
   margin-bottom: 100px;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .profile-container img {
+    margin-right: 10px;
+  }
+
+footer {
+  background-color: #E5E5E5;
+  height: 100px;
 }

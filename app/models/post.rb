@@ -4,6 +4,7 @@ class Post < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :post_comments, dependent: :destroy
+  has_many :searchs, dependent: :destroy
 
   validates :text, presence: true
 
@@ -15,8 +16,18 @@ class Post < ApplicationRecord
     post_image.variant(resize_to_limit: [width, height]).processed
   end
 
-  def favorited_by?(user)
-    favorites.exists?(user_id: user.id)
+  def favorited_by?(current_user)
+    favorites.exists?(user_id: current_user.id)
+  end
+
+  def favorites_count
+    @favorites = favorites
+    @favorites.select{|favorite|favorite if favorite.user.is_active?}.count
+  end
+
+  def post_comments_count
+    @comments = post_comments
+    @comments.select{|comment|comment if comment.user.is_active?}.count
   end
 
   GUEST_USER_EMAIL = "guest@example.com"
@@ -27,7 +38,7 @@ class Post < ApplicationRecord
       postuser.name = "guestuser"
     end
   end
-  
+
   def guest_user?
     email == GUEST_USER_EMAIL
   end

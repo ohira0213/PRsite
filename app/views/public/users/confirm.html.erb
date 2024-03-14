@@ -1,12 +1,11 @@
-<div class="row">
-  <div class="col">
-      <h4 class="my-5">本当に退会しますか？</h4>
-      <table>
-        <tr><td>退会すると、会員登録情報や</td></tr>
-        <tr><td>これまでの購入履歴が閲覧できなくなります。</td></tr>
-        <tr><td>退会する場合は、「退会する」をクリックしてください。</td></tr>
-        <tr><td><%= link_to "退会しない",  edit_public_user_path(current_user.id), :class => "btn btn-primary ms-3" %></td>
-        <td><%= link_to "退会する",  public_user_withdrawal_path, method: :patch, :class => "btn btn-danger ms-3" %></td></tr>
-      </table>
-    </div>
+<div style="display: flex; justify-content: center; align-items: center; height: 60vh;">
+  <div style="text-align: center;">
+    <h3>本当に退会しますか？</h3>
+    <h4>
+        退会すると、会員登録情報や投稿等が閲覧できなくなります。<br>
+        よろしければ、「退会する」をクリックしてください。
+    </h4>
+    <%= link_to "退会しない",  edit_public_user_path(current_user.id), :class => "btn btn-lg btn-primary mr-5 mt-5" %>
+    <%= link_to "退会する",  public_user_withdrawal_path, method: :patch, :class => "btn btn-lg  btn-danger mt-5" %>
   </div>
+</div>

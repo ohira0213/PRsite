@@ -1,14 +1,20 @@
-<% if @user.present? && @user.id == current_user.id %>
-<!-- user_idがnilでなく、ログイン中のidだった場合は下記を表示する -->
-<h2>プロフィール編集</h2>
-<%= form_with model: @user, url: public_user_path(@user), method: :patch do |f| %>
-  <label for="inputName">ユーザー名</label>
-  <%= f.text_field :name, autofocus: true, id:"inputName", placeholder:"ユーザー名を入力"%>
-  <label for="inputIntroduction">自己紹介</label>
-  <%= f.text_field :introduction, autofocus: true, id:"inputIntroduction", placeholder:"自己紹介文を入力"%>
-  <label for="inputImage">ProfileImage</label>
-  <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
-  <%= f.submit "変更を保存" %>
-<% end %>
-<%= link_to '退会する',  public_user_confirm_path(current_user), class: "btn btn-danger" %>
+<% if @user.id == current_user.id %>
+<!-- ログイン中のidだった場合は下記を表示する -->
+  <div class="container">
+    <div class="row">
+      <div class="mx-auto align-items-center" style="display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;" >
+        <h2>My Profile</h2>
+        <%= form_with model: @user, url: public_user_path(@user), method: :patch do |f| %>
+          <h6>ユーザー名</h6>
+          <%= f.text_field :name, autofocus: true, id: "inputName", placeholder: "ユーザー名を入力" %>
+          <h6>メッセージ</h6>
+          <%= f.text_field :introduction, autofocus: true, id: "inputIntroduction",placeholder: "メッセージを入力", style: "width: 100%;" %>
+          <h6>プロフィール画像</h6>
+          <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+          <%= f.submit "変更を保存する", class: "btn btn-sm btn-dark" %>
+        <% end %>
+        <%= link_to '退会する',  public_user_confirm_path(current_user), class: "btn btn-danger mt-5" %>
+      </div>
+    </div>
+  </div>
 <% end %>

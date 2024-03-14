@@ -1,11 +1,13 @@
 <% if !@posts.empty? %>
 <!--空でないの場合のみ表示する-->
-  <div class="container">
-    <div class="row">
-      <div class="mx-auto">
-        <div class="mb-1">
+  <div class = "container">
+    <div class = "row">
+      <div class = "mx-auto">
+        <div class = "mb-1 mt-3">
+          <% if current_user.email != "guest@example.com" %>
             <%= render "public/searches/search" %>
-          </div>
+          <% end %>
+        </div>
         <table class = "table">
           <% @posts.each do |post| %>
             <% if post.user.present? %>
@@ -13,7 +15,7 @@
               <tr>
                 <td>
                   <%= link_to public_user_path(post.user) do %>
-                    <%= image_tag post.user.get_profile_image(50, 50) %>
+                    <%= image_tag post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
                   <% end %>
                   <%= post.user.name %><br>
                   <%= link_to public_post_path(post) do %>
@@ -22,14 +24,14 @@
                   <%= post.text %><br>
                   <%= post.created_at.strftime('%Y/%m/%d') %><br>
                   <% if current_user.email != "guest@example.com" %>
-                  <%= render "public/favorites/favorite", post: post %>
-                  <%= link_to public_post_path(post) do %>
-                    <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
-                  <% end %>
-                  <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                    <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力", style: "width: 100%;" %>
-                    <%= f.submit "送信する" %>
-                  <% end %>
+                    <%= render "public/favorites/favorite", post: post %>
+                    <%= link_to public_post_path(post) do %>
+                      <i class = "fa-regular fa-comment"></i> <%= post.post_comments_count %>
+                    <% end %>
+                    <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
+                      <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力", style: "width: 100%;" %>
+                      <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right"  %>
+                    <% end %>
                   <% end %>
                 </td>
               </tr>
@@ -40,14 +42,7 @@
     </div>
   </div>
 <% else %>
-  <div class="container">
-    <div class="row">
-      <div class="mx-auto">
-        <th>
-          まだ投稿はありません。<br>
-          投稿してみましょう！
-        </th>
-      </div>
-    </div>
+  <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;">
+    <h3>投稿してみましょう！</h3>
   </div>
 <% end %>

@@ -12,9 +12,10 @@ class User < ApplicationRecord
   has_many :followings, through: :active_relationships, source: :followed
   has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :searchs, dependent: :destroy
 
-  validates :name, presence: true
-  validates :introduction, length: { maximum: 15 }
+  validates :name, presence: true, length: { maximum: 10 }
+  validates :introduction, length: { maximum: 20 }
 
   def get_profile_image(width, height)
     unless profile_image.attached?
@@ -22,6 +23,20 @@ class User < ApplicationRecord
       profile_image.attach(io: File.open(file_path), filename: 'default_profile_image.png', content_type: 'image/png')
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
+  end
+
+  def favorited_by?(current_user)
+    favorites.exists?(user_id: current_user.id)
+  end
+
+  def favorites_count
+    @favorites = favorites
+    @favorites.select{|favorite|favorite if favorite.user.is_active?}.count
+  end
+
+  def post_comments_count
+    @comments = post_comments
+    @comments.select{|comment|comment if comment.user.is_active?}.count
   end
 
   def follow(user)
@@ -36,11 +51,21 @@ class User < ApplicationRecord
     followings.include?(user)
   end
 
+  def followers_count
+    @followers = followers
+    @followers.select{|follower|follower if follower.is_active?}.count
+  end
+
+  def followings_count
+    @followings = followings
+    @followings.select{|following|following if following.is_active?}.count
+  end
+
   def user_status
     if is_active == true
-      "継続"
+      "継続中"
     else
-      "退会"
+      "退会済"
     end
   end
 

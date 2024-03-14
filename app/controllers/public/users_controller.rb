@@ -3,12 +3,11 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    if @user.is_active == false
-      flash[:alert] = "指定された投稿が見つかりません。"
+    if !@user.is_active? || guest_user?(@user)
+      flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path
     end
     @posts = @user.posts
-    @avorites = Favorite.joins(:user).where("users.is_active <> ? ",false)
     @post_comment = PostComment.new
   rescue ActiveRecord::RecordNotFound
   #user_idが見つからない時は、nilを返す
@@ -19,7 +18,7 @@ class Public::UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    if @user.is_active == false
+    if !@user.is_active? || guest_user?(@user)
       flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path
     end
@@ -41,21 +40,25 @@ class Public::UsersController < ApplicationController
       flash[:notice] = "プロフィールを変更しました。"
       redirect_to public_user_path(@user)
     else
-      error_messages = []
-      # エラーメッセージを格納するための配列を初期化
-      error_messages << "ユーザー名を入力してください。" if user_params[:name].blank?
-      # ユーザー名に関するエラーが存在する場合
-      error_messages << "自己紹介文は15文字以内で入力してください。" if user_params[:introduction].to_s.length > 15
-      # PR文に関するエラーが存在する場合
-      flash[:alert] = "プロフィールの変更ができませんでました。" + error_messages.join(" ") unless error_messages.empty?
-      redirect_to edit_public_user_path(@user.id)
+      if user_params[:name].blank?
+        flash[:alert] = "ユーザー名を入力してください。"
+        redirect_to edit_public_user_path(@user)
+      end
+      if user_params[:name].to_s.length > 10
+        flash[:alert] = "ユーザー名は10文字以内で入力してください。"
+        redirect_to edit_public_user_path(@user)
+      end
+      if user_params[:introduction].to_s.length > 20
+        flash[:alert] = "メッセージは20文字以内で入力してください。"
+        redirect_to edit_public_user_path(@user)
+      end
     end
   end
 
   def favorite
     @user = User.find(params[:user_id])
     @favorites = @user.favorites
-    if @user.is_active == false
+    if !@user.is_active? || guest_user?(@user)
       flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path
     end
@@ -84,6 +87,10 @@ class Public::UsersController < ApplicationController
       flash[:alert] = "ゲストユーザーは一部閲覧のみ可能です。"
       redirect_to public_user_path(current_user)
     end
+  end
+
+  def guest_user?(user)
+    user.email == "guest@example.com"
   end
 
   def user_params

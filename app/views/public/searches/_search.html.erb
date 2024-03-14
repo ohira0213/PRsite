@@ -1,11 +1,10 @@
 <% if user_signed_in? %>
-  <div class="search_form text-right">
-    <h3>ワード検索</h3>
+  <div class = "search_form text-right">
     <%= form_with url: public_search_path, local: true, method: :get do |f| %>
       <%= f.text_field :word, placeholder: "検索ワードを入力" %>
-      <%= f.select :range, options_for_select([['User'], ['Post']]) %>
+      <%= f.select :range, options_for_select([["ユーザー名"], ["PR文"]]) %>
       <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["部分一致","partial_match"]]) %>
-      <%= f.submit "検索" %>
+      <%= f.button :submit, class: "btn btn-sm btn-dark" do %>検索 <i class="fa-solid fa-magnifying-glass"></i><% end %>
     <% end %>
   </div>
 <% end %>
