@@ -3,8 +3,8 @@
   <div class = "container">
     <div class = "row">
       <div class = "mx-auto mt-3">
-        <h3 style="display: flex; justify-content: center;">Goodリスト</h3>
-        <table class = "table">
+        <h3 style="display: flex; justify-content: center;"><strong><span class = "fuchidori">Good</span> リスト</strong></h3>
+        <table class = "table mt-3">
           <% @favorites.each do |favorite| %>
             <tr>
               <td>
@@ -18,11 +18,11 @@
                 <%= favorite.post.text %><br>
                 <%= favorite.post.created_at.strftime('%Y/%m/%d') %><br>
                 <%= render "public/favorites/favorite", post: favorite.post %>
-                <%= link_to public_post_path(favorite.post.id) do %>
+                <%= link_to public_post_path(favorite.post), class: "text-dark" do %>
                   <i class="fa-regular fa-comment"></i> <%= favorite.post.post_comments_count %>
                 <% end %>
                 <%= form_with url: public_post_post_comments_path(favorite.post), model: @post_comment do |f| %>
-                  <%= f.text_area :comment, rows: '5', placeholder: "コメントを入力", style: "width: 100%;" %>
+                  <%= f.text_area :comment, rows: "5", placeholder: "コメントを入力", style: "width: 100%;" %>
                   <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right" %>
                 <% end %>
               </td>
@@ -34,6 +34,6 @@
   </div>
 <% else %>
   <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;">
-    <h3>Goodした投稿はありません。</h3>
+    <h3><strong>Goodした投稿はありません。</strong></h3>
   </div>
 <% end %>

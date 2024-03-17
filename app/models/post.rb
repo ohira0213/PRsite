@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   has_many :post_comments, dependent: :destroy
   has_many :searchs, dependent: :destroy
 
-  validates :text, presence: true
+  validates :text, presence: true, length: { maximum: 100 }
 
   def get_post_image(width, height)
     unless post_image.attached?
@@ -35,7 +35,7 @@ class Post < ApplicationRecord
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       post.user.password = SecureRandom.urlsafe_base64
-      postuser.name = "guestuser"
+      post.user.name = "ゲスト"
     end
   end
 

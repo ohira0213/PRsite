@@ -1,96 +1,86 @@
-
-  <% if @range == "ユーザー名" %>
-    <% if params[:search] == "perfect_match" %>
-      <h2>「<%= params[:word] %>」のユーザーの完全一致検索結果</h2>
-    <% elsif params[:search]  == "partial_match" %>
-      <h2>「<%= params[:word] %>」のユーザーの部分検索結果</h2>
-    <% end %>
-    <% if @users.empty? %>
-      <div class = "container">
-        <div class = "row">
-          <div class = "mx-auto">
-            <th class = "text-center">
-              該当するユーザーはいません。
-            </th>
+<% if @range == "ユーザー名" %>
+  <div class = "container mt-3">
+    <div class = "row justify-content-center">
+      <div class = "col-md-10">
+        <% if params[:search] == "perfect_match" %>
+          <h3>「<%= params[:word] %>」のユーザーの完全一致検索結果</strong></h3>
+        <% elsif params[:search]  == "partial_match" %>
+          <h3>「<%= params[:word] %>」のユーザーの部分検索結果</strong></h3>
+        <% end %>
+        <% if @users.empty? %>
+          <div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">
+            <div style = "text-align: center;">
+              <h3><strong>該当するユーザーはいません。</strong></h3>
+            </div>
           </div>
+        <% else %>
+          <table class = "table mt-3">
+            <% @users.each do |user| %>
+              <tr>
+                <td>
+                  <%= link_to public_user_path(user) do %>
+                    <%= image_tag user.get_profile_image(50,50) %>
+                  <% end %>
+                </td>
+                <td><%= user.name %></td>
+                <td><%= user.introduction %></td>
+                <% unless user.id == current_user.id %>
+                  <% if current_user.following?(user) %>
+                    <td><%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete, class: "text-dark" %></td>
+                  <% else %>
+                    <td><%= link_to "フォローする", public_user_relationships_path(user), method: :post, class: "text-dark" %></td>
+                  <% end %>
+                <% end %>
+              </tr>
+            <% end %>
+          </table>
         </div>
-      </div>
-    <% else %>
-      <div class = "container">
-  <div class = "row justify-content-center">
-    <div class = "col-md-10">
-      <table class = "table table-hover table-inverse">
-      <% @users.each do |user| %>
-        <tr>
-          <td>
-            <%= link_to public_user_path(user) do %>
-              <%= image_tag user.get_profile_image(50,50) %>
-            <% end %>
-          </td>
-          <td><%= user.name %></td>
-          <td><%= user.introduction %></td>
-          <td>
-            <% unless user.id == current_user.id %>
-              <% if current_user.following?(user) %>
-                <%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete %>
-              <% else %>
-                <%= link_to "フォローする", public_user_relationships_path(user), method: :post %>
-              <% end %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </div>
       </div>
     </div>
   <% end %>
 <% else %>
-  <% if params[:search] == "perfect_match" %>
-    <h2>「<%= params[:word] %>」の投稿の完全一致検索結果</h2>
-  <% elsif params[:search]  == "partial_match" %>
-    <h2>「<%= params[:word] %>」の投稿の部分検索結果</h2>
-  <% end %>
-  <% if @posts.empty? %>
-    <div class = "container">
-      <div class = "row">
-        <div class = "mx-auto">
-          <th class = "text-center">
-            該当する投稿はありません。
-          </th>
-        </div>
+  <div class = "container mt-3">
+    <div class = "row justify-content-center">
+      <div class = "col-md-10">
+        <% if params[:search] == "perfect_match" %>
+          <h3><strong>「<%= params[:word] %>」の投稿の完全一致検索結果</strong></h3>
+        <% elsif params[:search]  == "partial_match" %>
+          <h3><strong>「<%= params[:word] %>」の投稿の部分検索結果</strong></h3>
+        <% end %>
+        <% if @posts.empty? %>
+          <div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">
+            <div style = "text-align: center;">
+              <h3><strong>該当する投稿はありません。</strong></h3>
+            </div>
+          </div>
+        <% else %>
+          <table class = "table mt-3">
+            <% @posts.each do |post| %>
+              <tr>
+                <td>
+                  <%= link_to public_post_path(post) do %>
+                    <%= image_tag post.get_post_image(50,50) %>
+                  <% end %>
+                </td>
+                <td><%= post.text %></td>
+                <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
+                <td><%= render "public/favorites/favorite", post: post %></td>
+                <td>
+                  <%= link_to public_post_path(post), class: "text-dark" do %>
+                    <i class="fa-regular fa-comment"></i> <%= post.post_comments_count %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
+                    <%= f.text_area :comment, rows: "1", placeholder: "コメントを入力",style: "width: 50%;" %>
+                    <%= f.submit "送信する" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
       </div>
     </div>
-  <% else %>
-      <div class = "container">
-  <div class = "row justify-content-center">
-    <div class = "col-md-10">
-      <table class = "table table-hover table-inverse">
-      <% @posts.each do |post| %>
-        <tr>
-          <td>
-            <%= link_to public_post_path(post) do %>
-              <%= image_tag post.get_post_image(50,50) %>
-            <% end %>
-          </td>
-          <td><%= post.text %></td>
-          <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
-          <td><%= render "public/favorites/favorite", post: post %></td>
-          <td>
-            <%= link_to public_post_path(post) do %>
-              <i class="fa-regular fa-comment"></i> <%= post.post_comments_count %>
-            <% end %>
-          </td>
-          <td>
-            <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-              <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力",style: "width: 80%;" %>
-              <%= f.submit "送信する" %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-  <% end %>
+  </div>
 <% end %>
-</table>
-</div>
-      </div>
-    </div>

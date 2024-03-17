@@ -7,7 +7,7 @@ class Search < ApplicationRecord
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       post.user.password = SecureRandom.urlsafe_base64
-      postuser.name = "guestuser"
+      postuser.name = "ゲスト"
     end
   end
 

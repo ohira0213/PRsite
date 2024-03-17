@@ -12,10 +12,23 @@ body {
 
 header {
   background-color: #E5E5E5;
+  height: 150px;
+  position: fixed;
+}
+
+.navbar-toggler{
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,0,0,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 main {
   flex-grow: 1;
+  padding-top: 150px;
+  padding-bottom: 50px;
   background-color: #f7f7f7;
 }
 
@@ -24,16 +37,59 @@ main {
 }
 
 .profile-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  .profile-container img {
-    margin-right: 10px;
-  }
+.profile-container img {
+  margin-right: 10px;
+}
+
+/*ページネーション自体のデザイン*/
+.pagination>li>a {
+  border: none;
+  color: black;
+}
+
+.fuchidori {
+  color: #ffc107;
+  -webkit-text-stroke: 1px black;
+  text-stroke: 1px black;
+}
+
+.button-like-text {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  background-color: #dc3545;
+  color: #fff;
+  text-align: center;
+}
+
+/*表示しているページ番号のデザイン*/
+.page-item.active .page-link {
+  background: #E5E5E5;
+  border-radius: 30px;
+  color: black;
+  font-weight: bold
+}
+
+/*カーソルが合った時のデザイン*/
+.pagination>li>a:hover {
+  border-radius: 30px;
+  color: black;
+}
+
+/*その他の時のデザイン*/
+.page-link {
+  background: #f7f7f7;
+  color: black;
+}
 
 footer {
   background-color: #E5E5E5;
-  height: 100px;
+  height: 50px;
 }

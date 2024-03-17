@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :index, :show, :destroy]
+  before_action :authenticate_user!
   before_action :ensure_guest_user, only: [:new]
 
   def new
@@ -13,15 +13,20 @@ class Public::PostsController < ApplicationController
       flash[:notice] = "投稿しました。"
       redirect_to public_posts_path
     else
-      if @post.errors[:text].present?
-        flash[:alert] =  "商品紹介文を入力してください。"
+      if post_params[:text].blank?
+        flash[:alert] = "PR文を入力してください。"
+        redirect_to request.referer
+      end
+      if post_params[:text].to_s.length > 100
+        flash[:alert] = "PR文は100文字以内で入力してください。"
         redirect_to request.referer
       end
     end
   end
 
   def index
-    @posts = Post.joins(:user).where("users.is_active <> ? ",false)
+    @posts = Post.joins(:user).where("users.is_active <> ? ",false).order(created_at: :desc)
+    #users.is_active`がfalseでないユーザーを作成日で降順に表示する
     @post_comment = PostComment.new
   end
 

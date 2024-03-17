@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 2024_03_14_133012) do
   end
 
   create_table "searches", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "post_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

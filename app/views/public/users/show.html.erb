@@ -3,19 +3,19 @@
   <div class="container">
     <div class="row">
       <div class="mx-auto mt-3">
-        <h3 style="display: flex; justify-content: center;">Myページ</h3>
-        <div class="profile-container">
+        <h3 style="display: flex; justify-content: center;"><strong>Myページ</strong></h3>
+        <div class="profile-container mb-3">
           <%= image_tag @user.get_profile_image(100, 100), style: "margin-right: 30px;" %>
           <%= @user.name %><br>
           <%= @user.introduction %><br>
         </div>
         <% if current_user.email != "guest@example.com" %>
           <%= link_to "フォロー #{@user.followings_count} 人", public_user_followings_path(@user), class: "btn btn-sm btn-light mr-1" %>
-          <%= link_to "フォロワー #{@user.followers_count} 人", public_user_followers_path(@user), class: "btn btn-sm btn-light" %>
-          <%= link_to "Goodリスト", public_user_favorite_path(@user), class: "btn btn-sm btn-dark float-right" %>
+          <%= link_to "フォロワー #{@user.followers_count} 人", public_user_followers_path(@user), class: "btn btn-sm btn-light mr-3" %>
+          <%= link_to "Goodリスト", public_user_favorite_path(@user), class: "btn btn-sm btn-warning float-right" %>
           <% if @user.id == current_user.id %>
           <!-- user_idがログイン中のidだった場合は下記を表示する -->
-            <%= link_to "My Profile", edit_public_user_path(@user), class: "btn btn-sm btn-dark float-right mr-3" %><br>
+            <%= link_to "プロフィール", edit_public_user_path(@user), class: "btn btn-sm btn-dark float-right mr-3" %><br>
           <% else %>
             <% if current_user.following?(@user) %>
               <%= link_to "フォロー外す", public_user_relationships_path(@user), method: :delete, class: "btn btn-sm btn-dark float-right mr-3" %>
@@ -24,7 +24,7 @@
             <% end %>
           <% end %>
         <% end %>
-        <table class="table">
+        <table class="table mt-3">
           <% @posts.each do |post| %>
             <tr>
               <td>
@@ -34,11 +34,11 @@
                 <%= post.text %><br>
                 <%= post.created_at.strftime('%Y/%m/%d') %><br>
                 <%= render "public/favorites/favorite", post: post %>
-                <%= link_to public_post_path(post) do %>
+                <%= link_to public_post_path(post), class: "text-dark" do %>
                   <i class="fa-regular fa-comment"></i> <%= post.post_comments_count %>
                 <% end %>
                 <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                  <%= f.text_area :comment, rows: '5', placeholder: "コメントを入力", style: "width: 100%;" %>
+                  <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力", style: "width: 100%;" %>
                   <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right" %>
                 <% end %>
               </td>

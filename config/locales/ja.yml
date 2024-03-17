@@ -1,0 +1,22 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: "を入力してください。"
+            email:
+              blank: "を入力してください。"
+              taken: "すでに同じメールアドレスのユーザーが存在します。"
+            password:
+              blank: "を入力してください。"
+            password_confirmation:
+              confirmation: "パスワードが一致しません。"
+  views:
+    pagination:
+      first: <i class="fas fa-angle-double-left"></i>
+      last: <i class="fas fa-angle-double-right"></i>
+      previous: <i class="fas fa-angle-left"></i>
+      next: <i class="fas fa-angle-right"></i>
+      truncate: "..."

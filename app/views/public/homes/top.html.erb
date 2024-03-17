@@ -1,17 +1,23 @@
-<div style = "display: flex; justify-content: center; align-items: center; height: 70vh;">
+<div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">
   <div style = "text-align: center;">
-    <h3>当サイトは、商品紹介の投稿ができるサイトです。</h3>
-    <h3 class = "mb-5">皆様のお買い物にお力添えができますように。</h3>
-    <% unless (user_signed_in? && !admin_signed_in?) || (!user_signed_in? && admin_signed_in?) %>
+    <% if admin_signed_in? %>
+      <h3>こちらは「<strong>商品PRサイト</strong>」の<strong>管理者様用</strong>ページです。</h3>
+      <h3>ご利用状況の確認や管理にご利用ください。</h3>
+    <% elsif user_signed_in? %>
+      <h3>当サイトは、<strong>商品紹介の投稿をするサイト</strong>です。</h3>
+      <h3 class = "mb-5">皆様のお買い物にお力添えができますように。</h3>
+    <% else %>
+      <h3>当サイトは、<strong>商品紹介の投稿をするサイト</strong>です。</h3>
+      <h3 class = "mb-5">皆様のお買い物にお力添えができますように。</h3>
       <div class = "btn-wrapper col-8 mx-auto">
         <div class = "row">
-          <%= link_to "ゲストログイン（閲覧のみ）", public_guest_sign_in_path, class: "btn btn-light btn-block mb-3 sign_in", method: :post %>
+          <%= link_to "ゲストログイン（閲覧のみ）", public_guest_sign_in_path, class: "btn btn-secondary btn-block mb-3 sign_in", method: :post %>
         </div>
         <div class = "row">
-          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light btn-block mb-3" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-dark btn-block mb-3" %>
         </div>
         <div class = "row">
-          <%= link_to "ログイン", new_user_session_path, class: "btn btn-light btn-block" %>
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-dark btn-block" %>
         </div>
       </div>
     <% end %>

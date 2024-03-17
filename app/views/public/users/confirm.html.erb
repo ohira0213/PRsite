@@ -1,11 +1,11 @@
 <div style="display: flex; justify-content: center; align-items: center; height: 60vh;">
   <div style="text-align: center;">
-    <h3>本当に退会しますか？</h3>
+    <h3><strong>本当に退会しますか？</strong></h3>
     <h4>
-        退会すると、会員登録情報や投稿等が閲覧できなくなります。<br>
-        よろしければ、「退会する」をクリックしてください。
+        退会すると、投稿やユーザー情報などが閲覧できなくなります。<br>
+        よろしければ <span class="button-like-text">退会する</span> をクリックしてください。
     </h4>
-    <%= link_to "退会しない",  edit_public_user_path(current_user.id), :class => "btn btn-lg btn-primary mr-5 mt-5" %>
-    <%= link_to "退会する",  public_user_withdrawal_path, method: :patch, :class => "btn btn-lg  btn-danger mt-5" %>
+    <%= link_to "退会しない",  edit_public_user_path(current_user.id), :class => "btn btn-lg btn-primary mr-2 mt-5" %>
+    <%= link_to "退会する",  public_user_withdrawal_path, method: :patch, :class => "btn btn-lg btn-danger ml-2 mt-5" %>
   </div>
 </div>

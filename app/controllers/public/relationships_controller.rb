@@ -1,4 +1,6 @@
 class Public::RelationshipsController < ApplicationController
+  before_action :authenticate_user!
+  
   def create
     user = User.find(params[:user_id])
     current_user.follow(user)
@@ -15,7 +17,7 @@ class Public::RelationshipsController < ApplicationController
     user = User.find(params[:user_id])
     @users = user.followings.where(is_active: true)
     @post = user.posts.first
-    if !@post.user.is_active?
+    if !@post.nil? && @post.user.is_active?
       flash[:alert] = "指定された投稿が見つかりません。"
       redirect_to public_posts_path
     end
@@ -25,7 +27,7 @@ class Public::RelationshipsController < ApplicationController
     user = User.find(params[:user_id])
     @users = user.followers.where(is_active: true)
     @post = user.posts.first
-    if !@post.user.is_active?
+    if !@post.nil? && @post.user.is_active?
       flash[:alert] = "指定された投稿が見つかりません。"
       redirect_to public_posts_path
     end

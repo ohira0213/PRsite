@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :searchs, dependent: :destroy
 
+  validates :email, uniqueness: true
   validates :name, presence: true, length: { maximum: 10 }
   validates :introduction, length: { maximum: 20 }
 
@@ -80,7 +81,7 @@ class User < ApplicationRecord
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
-      user.name = "guestuser"
+      user.name = "ゲスト"
     end
   end
 

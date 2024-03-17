@@ -1,9 +1,9 @@
 <div class = "container">
   <div class = "row justify-content-center">
     <div class = "col-md-10 mt-3">
-      <h3>フォロワーリスト</h3>
+      <h3><strong>フォロワーリスト</strong></h3>
       <% if @users.exists? %>
-        <table class="table">
+        <table class="table mt-3">
           <% @users.each do |user| %>
             <tr>
               <td>
@@ -14,7 +14,7 @@
               <td><%= user.name %></td>
               <td><%= "フォロー #{user.followings_count} 人" %></td>
               <td><%= "フォロワー #{user.followers_count} 人" %></td>
-              <td><%= link_to "ユーザーinfo", public_user_path(user), class: "btn btn-sm btn-dark" %></td>
+              <td><%= link_to "プロフィール", public_user_path(user), class: "btn btn-sm btn-dark" %></td>
             </tr>
           <% end %>
         </table>
@@ -23,6 +23,6 @@
   </div>
 <% else %>
   <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;">
-    <h3>フォロワーはいません</h3>
+    <h3><strong>フォロワーはいません。</strong></h3>
   </div>
 <% end %>

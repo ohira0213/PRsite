@@ -1,13 +1,15 @@
 class Public::UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :ensure_guest_user, only: [:edit, :edit, :favorite, :confirm]
 
   def show
     @user = User.find(params[:id])
-    if !@user.is_active? || guest_user?(@user)
+    if @user.is_active == false || (@user.email == "guest@example.com" && current_user != @user) || (current_user.email == "guest@example.com" && @user.is_active == false)
+    #is_activeがfalseのユーザーまたはゲストユーザーは（ゲストユーザー自身が開いた場合を除いて）開けない
       flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path
     end
-    @posts = @user.posts
+    @posts = @user.posts.order(created_at: :desc)
     @post_comment = PostComment.new
   rescue ActiveRecord::RecordNotFound
   #user_idが見つからない時は、nilを返す
@@ -40,6 +42,10 @@ class Public::UsersController < ApplicationController
       flash[:notice] = "プロフィールを変更しました。"
       redirect_to public_user_path(@user)
     else
+      if User.exists?(email: user_params[:email])
+        flash[:alert] = "メールアドレスが既に使用されています。"
+        redirect_to edit_public_user_path(@user)
+      end
       if user_params[:name].blank?
         flash[:alert] = "ユーザー名を入力してください。"
         redirect_to edit_public_user_path(@user)
@@ -57,7 +63,7 @@ class Public::UsersController < ApplicationController
 
   def favorite
     @user = User.find(params[:user_id])
-    @favorites = @user.favorites
+    @favorites = @user.favorites.order(created_at: :desc)
     if !@user.is_active? || guest_user?(@user)
       flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path

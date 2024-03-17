@@ -3,12 +3,14 @@
   <div class="container">
     <div class="row">
       <div class="mx-auto align-items-center" style="display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;" >
-        <h2>My Profile</h2>
+        <h3><strong>プロフィール</strong></h3>
         <%= form_with model: @user, url: public_user_path(@user), method: :patch do |f| %>
+          <h6>メールアドレス</h6>
+          <%= f.text_field :email, id: "inputEmail", placeholder: "メールアドレスを入力", style: "width: 100%;" %>
           <h6>ユーザー名</h6>
-          <%= f.text_field :name, autofocus: true, id: "inputName", placeholder: "ユーザー名を入力" %>
+          <%= f.text_field :name, autofocus: true, id: "inputName", placeholder: "ユーザー名を入力", style: "width: 100%;" %>
           <h6>メッセージ</h6>
-          <%= f.text_field :introduction, autofocus: true, id: "inputIntroduction",placeholder: "メッセージを入力", style: "width: 100%;" %>
+          <%= f.text_field :introduction, autofocus: true, id: "inputIntroduction", placeholder: "メッセージを入力", style: "width: 100%;" %>
           <h6>プロフィール画像</h6>
           <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
           <%= f.submit "変更を保存する", class: "btn btn-sm btn-dark" %>

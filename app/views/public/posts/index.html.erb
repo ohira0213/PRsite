@@ -25,11 +25,11 @@
                   <%= post.created_at.strftime('%Y/%m/%d') %><br>
                   <% if current_user.email != "guest@example.com" %>
                     <%= render "public/favorites/favorite", post: post %>
-                    <%= link_to public_post_path(post) do %>
+                    <%= link_to public_post_path(post), class: "text-dark" do %>
                       <i class = "fa-regular fa-comment"></i> <%= post.post_comments_count %>
                     <% end %>
                     <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                      <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力", style: "width: 100%;" %>
+                      <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力", style: "width: 100%;" %>
                       <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right"  %>
                     <% end %>
                   <% end %>
@@ -43,6 +43,6 @@
   </div>
 <% else %>
   <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;">
-    <h3>投稿してみましょう！</h3>
+    <h3><strong>投稿してみましょう！</strong></h3>
   </div>
 <% end %>
