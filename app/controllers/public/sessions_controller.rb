@@ -22,18 +22,17 @@ class Public::SessionsController < Devise::SessionsController
 
   def reject_public
     @user = User.find_by(email: params[:user][:email])
-  rescue ActiveRecord::RecordNotFound
-  #指定されたuser_idが見つからない時は、nilを返す
-    @user = nil
-    render :new
-    if @user
+    #@userがnilでないことを確認する
+    if @user && @user.valid_password?(params[:user][:password]) && !@user.is_active?
+    #nilでないことを確認する
       if @user.valid_password?(params[:user][:password]) && (@user.is_active == false)
+      #パスワードが`params[:user][:password]`と一致するか確認し、is_activeがfalseであるか確認する
         flash[:alert] = "退会済みです。再度ご登録ください。"
         redirect_to new_user_registration_path
+      else
+        flash.now[:alert] = "メールアドレスまたはパスワードが違います。"
+        render :new
       end
-    else
-      flash.now[:alert] = "該当するユーザーが見つかりません。"
-      render :new
     end
   end
 

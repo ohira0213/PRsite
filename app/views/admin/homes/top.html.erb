@@ -1,5 +1,5 @@
-<% if @requests && !@requests.empty? %>
-<!--ユーザーがnilでなく、かつ空でない場合は表示する-->
+<% if @requests.present? && @requests.any? { |request| request.mark_status == "unverified" && request.user.is_active } %>
+<!--ユーザーがnilでなく、is_activeがtrueのユーザー空でない場合は表示する-->
   <div class = "container">
     <div class = "row justify-content-center">
       <div class = "col-md-10">
@@ -8,23 +8,20 @@
           <table class = "table mt-3">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>ご利用者様名</th>
+                <th>ユーザーID</th>
+                <th>ユーザー名</th>
                 <th>メールアドレス</th>
               </tr>
             </thead>
             <% @requests.each do |request| %>
-              <% if request.mark_status == "unverified" %>
-              <!--ステータスがunverified(未確認)である場合のみ表示する-->
-                <tbody>
-                  <tr>
-                    <td><%= request.user.id %></td>
-                    <td><%= link_to request.user.name, edit_admin_user_request_path(request.user, request), class: "text-dark" %></td>
-                    <td><%= request.user.email.split("@").first %>@...</td>
-                    <!--@までを表示し、それ以降は…で省略する-->
-                  </tr>
-                </tbody>
-              <% end %>
+              <tbody>
+                <tr>
+                  <td><%= request.user.id %></td>
+                  <td><%= link_to request.user.name, edit_admin_user_request_path(request.user, request), class: "text-dark" %></td>
+                  <td><%= request.user.email.split("@").first %>@...</td>
+                  <!--@までを表示し、それ以降は…で省略する-->
+                </tr>
+              </tbody>
             <% end %>
           </table>
         </div>

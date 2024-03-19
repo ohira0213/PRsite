@@ -26,7 +26,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @posts = Post.joins(:user).where("users.is_active <> ? ",false).order(created_at: :desc)
-    #users.is_active`がfalseでないユーザーを作成日で降順に表示する
+    #users.is_active`がfalseでないユーザーを作成日降順に表示する
     @post_comment = PostComment.new
   end
 
