@@ -11,7 +11,14 @@
                   <%= image_tag user.get_profile_image(30, 30) %>
                 <% end %>
               <td>
-              <td><%= user.name %></td>
+              <td>
+                <%= user.name %>
+                <% if user.request.present? %>
+                  <% if user.request.mark_status == "certifiable" %>
+                    <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+                  <% end %>
+                <% end %>
+              </td>
               <td><%= "フォロー #{user.followings_count} 人" %></td>
               <td><%= "フォロワー #{user.followers_count} 人" %></td>
               <td><%= link_to "プロフィール", public_user_path(user), class: "btn btn-sm btn-dark" %></td>

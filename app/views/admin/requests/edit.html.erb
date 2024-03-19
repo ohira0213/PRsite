@@ -1,0 +1,44 @@
+<div class="container">
+  <div class = "row justify-content-center">
+    <div class = "col-md-10 mt-3">
+      <h3><strong>ご利用者情報</strong></h3>
+      <%= form_with model: @request, url: admin_user_request_path(@request.user), method: :patch do |f| %>
+        <div class = "text-right">
+          <%= f.submit "申請状況を変更", class: "btn btn-danger", data: { confirm: "申請状況の変更を行います。よろしいでしょうか？" } %>
+        </div>
+        <table class = "table table-bordered mt-1">
+          <tbody>
+            <tr>
+              <td class = "px-3">ユーザーID</td>
+              <td class = "px-3"><%= @request.id %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">ユーザー画像</td>
+              <td class = "px-3"><%= image_tag @request.user.get_profile_image(20, 20) %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">ユーザー名</td>
+              <td class = "px-3"><%= @request.user.name %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">自己紹介文</td>
+              <td class = "px-3"><%= @request.user.introduction %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">メールアドレス</td>
+              <td class = "px-3"><%= @request.user.email %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">ご利用開始日</td>
+              <td class = "px-3"><%= @request.user.created_at.strftime('%Y/%m/%d') %></td>
+            </tr>
+            <tr>
+              <td class = "px-3">企業様認証マーク申請状況</td>
+              <td class = "px-3"><%= f.select :mark_status, options_for_select(Request.mark_statuses.map { |key, _| [I18n.t("enums.request.mark_status.#{key}"), key] }, f.object.mark_status) %></td>
+            </tr>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

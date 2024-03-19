@@ -3,7 +3,7 @@
   <div class = "container">
     <div class = "row">
       <div class = "mx-auto mt-3">
-        <table class="table">
+        <table class = "table">
           <tr>
             <td>
               <% if @post.user == current_user %>
@@ -12,13 +12,18 @@
               <%= link_to public_user_path(@post.user) do %>
                 <%= image_tag @post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
               <% end %>
-              <%= @post.user.name %><br>
+              <%= @post.user.name %>
+              <% if @post.user.request.present? %>
+                <% if @post.user.request.mark_status == "certifiable" %>
+                  <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+                <% end %>
+              <% end %><br>
               <%= image_tag @post.get_post_image(1000, 1000) %><br>
               <%= @post.text %><br>
               <%= @post.created_at.strftime('%Y/%m/%d') %><br>
               <% if current_user.email != "guest@example.com" %>
                 <%= render "public/favorites/favorite", post: @post %>
-                <i class="fa-regular fa-comment"></i> <%= @post.post_comments_count %>
+                <i class = "fa-regular fa-comment"></i> <%= @post.post_comments_count %>
                 <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
                   <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力",style: "width: 100%;" %>
                   <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right"  %>

@@ -1,15 +1,12 @@
 class Public::FavoritesController < ApplicationController
   before_action :authenticate_user!
-  
+
   def create
     post = Post.find(params[:post_id])
     if post
       favorite = current_user.favorites.new(post_id: post.id)
       favorite.save
       redirect_to request.referer
-    else
-      flash[:notice] = "指定された投稿が見つかりません。"
-      redirect_to public_posts_path
     end
   end
 
@@ -19,12 +16,9 @@ class Public::FavoritesController < ApplicationController
       favorite = current_user.favorites.find_by(post_id: post.id)
       favorite.destroy
       redirect_to request.referer
-    else
-      flash[:notice] = "指定された投稿が見つかりません。"
-      redirect_to public_posts_path
     end
   end
-  
+
   private
 
   def favorite_params

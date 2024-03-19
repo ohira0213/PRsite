@@ -1,4 +1,10 @@
 ja:
+  enums:
+    request:
+      mark_status:
+        unverified: "未確認"
+        certifiable: "認証"
+        unprovable: "認証不可"
   activerecord:
     errors:
       models:

@@ -3,7 +3,7 @@
   <div class = "container">
     <div class = "row">
       <div class = "mx-auto mt-3">
-        <h3 style="display: flex; justify-content: center;"><strong><span class = "fuchidori">Good</span> リスト</strong></h3>
+        <h3 style = "display: flex; justify-content: center;"><strong><span class = "fuchidori">Good</span> リスト</strong></h3>
         <table class = "table mt-3">
           <% @favorites.each do |favorite| %>
             <tr>
@@ -11,7 +11,12 @@
                 <%= link_to public_user_path(favorite.post.user) do %>
                   <%= image_tag favorite.post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
                 <% end %>
-                <%= favorite.post.user.name %><br>
+                <%= favorite.post.user.name %>
+                <% if favorite.post.user.request.present? %>
+                  <% if favorite.post.user.request.mark_status == "certifiable" %>
+                    <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+                  <% end %>
+                <% end %><br>
                 <%= link_to public_post_path(favorite.post) do %>
                   <%= image_tag favorite.post.get_post_image(500, 500) %>
                 <% end %><br>

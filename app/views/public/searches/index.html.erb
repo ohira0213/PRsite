@@ -22,13 +22,20 @@
                     <%= image_tag user.get_profile_image(50,50) %>
                   <% end %>
                 </td>
-                <td><%= user.name %></td>
+                <td>
+                  <%= user.name %>
+                  <% if user.request.present? %>
+                    <% if user.request.mark_status == "certifiable" %>
+                      <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+                    <% end %>
+                  <% end %>
+                </td>
                 <td><%= user.introduction %></td>
                 <% unless user.id == current_user.id %>
                   <% if current_user.following?(user) %>
-                    <td><%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete, class: "text-dark" %></td>
+                    <td><%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete, class: "btn btn-sm btn-dark float-right" %></td>
                   <% else %>
-                    <td><%= link_to "フォローする", public_user_relationships_path(user), method: :post, class: "text-dark" %></td>
+                    <td><%= link_to "フォローする", public_user_relationships_path(user), method: :post, class: "btn btn-sm btn-dark float-right" %></td>
                   <% end %>
                 <% end %>
               </tr>

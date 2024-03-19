@@ -8,38 +8,38 @@
       <ul class = "navbar-nav ml-auto">
         <% if admin_signed_in? %>
         <!--adminにログインしている時に表示する-->
-          <li class="nav-item">
+          <li class = "nav-item">
             <%= link_to "利用者一覧", admin_users_path, class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "申請一覧", admin_root_path, class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-light nav-link" %>
           </li>
         <% elsif user_signed_in? %>
         <!--userでログインしている時に表示する-->
-          <li class="nav-item">
+          <li class = "nav-item">
             <%= link_to "新規投稿", new_public_post_path, class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "投稿一覧", public_posts_path, class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
-            <%= link_to "Myページ", public_user_path(current_user.id), class: "btn btn-light nav-link" %>
+          <li class = "nav-item ml-3">
+            <%= link_to "マイページ", public_user_path(current_user.id), class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-light nav-link" %>
           </li>
         <% else %>
         <!--adminでもuserでもログインしていない時に表示する-->
-          <li class="nav-item">
+          <li class = "nav-item">
             <%= link_to "ゲストログイン", public_guest_sign_in_path, class: "btn btn-light nav-link sign_in", method: :post %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light nav-link" %>
           </li>
-          <li class="nav-item ml-3">
+          <li class = "nav-item ml-3">
             <%= link_to "ログイン", new_user_session_path, class: "btn btn-light nav-link" %>
           </li>
         <% end %>

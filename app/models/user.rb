@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :searchs, dependent: :destroy
+  has_one :request, dependent: :destroy
 
   validates :email, uniqueness: true
   validates :name, presence: true, length: { maximum: 10 }
@@ -60,6 +61,12 @@ class User < ApplicationRecord
   def followings_count
     @followings = followings
     @followings.select{|following|following if following.is_active?}.count
+  end
+
+  def has_request?
+  #self.requestが存在するかどうかを確認
+    self.request.present?
+    #self.request（@userの申請情報）が存在する場合にtrueを返す
   end
 
   def user_status

@@ -17,7 +17,12 @@
                   <%= link_to public_user_path(post.user) do %>
                     <%= image_tag post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
                   <% end %>
-                  <%= post.user.name %><br>
+                  <%= post.user.name %>
+                  <% if post.user.request.present? %>
+                    <% if post.user.request.mark_status == "certifiable" %>
+                      <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+                    <% end %>
+                  <% end %><br>
                   <%= link_to public_post_path(post) do %>
                     <%= image_tag post.get_post_image(1000, 1000) %>
                   <% end %><br>
