@@ -21,10 +21,11 @@ class User < ApplicationRecord
 
   def get_profile_image(width, height)
     unless profile_image.attached?
-      file_path = Rails.root.join('app/assets/images/default_profile_image.png')
-      profile_image.attach(io: File.open(file_path), filename: 'default_profile_image.png', content_type: 'image/png')
+      file_path = Rails.root.join("app/assets/images/default_profile_image.png")
+      profile_image.attach(io: File.open(file_path), filename: "default_profile_image.png", content_type: "image/png")
     end
-    profile_image.variant(resize_to_limit: [width, height]).processed
+    profile_image.variant(resize_to_fill: [width, height, gravity: "Center"]).processed
+    #指定したサイズに合わせて中心から画像を縮小・拡大し、余剰部分をトリミングする
   end
 
   def favorited_by?(current_user)

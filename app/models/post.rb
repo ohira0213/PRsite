@@ -10,10 +10,11 @@ class Post < ApplicationRecord
 
   def get_post_image(width, height)
     unless post_image.attached?
-      file_path = Rails.root.join('app/assets/images/default_post_image.jpg')
-      post_image.attach(io: File.open(file_path), filename: 'default_post_image.jpg', content_type: 'image/jpg')
+      file_path = Rails.root.join("app/assets/images/default_post_image.jpg")
+      profile_image.attach(io: File.open(file_path), filename: "default_post_image.jpg", content_type: "image/jpg")
     end
-    post_image.variant(resize_to_limit: [width, height]).processed
+    post_image.variant(resize_to_fill: [width, height, gravity: "Center"]).processed
+    #指定したサイズに合わせて中心から画像を縮小・拡大し、余剰部分をトリミングする
   end
 
   def favorited_by?(current_user)

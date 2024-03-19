@@ -18,7 +18,7 @@
                   <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
                 <% end %>
               <% end %><br>
-              <%= image_tag @post.get_post_image(1000, 1000) %><br>
+              <%= image_tag @post.get_post_image(500, 500) %><br>
               <%= @post.text %><br>
               <%= @post.created_at.strftime('%Y/%m/%d') %><br>
               <% if current_user.email != "guest@example.com" %>

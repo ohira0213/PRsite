@@ -24,7 +24,7 @@
                     <% end %>
                   <% end %><br>
                   <%= link_to public_post_path(post) do %>
-                    <%= image_tag post.get_post_image(1000, 1000) %>
+                    <%= image_tag post.get_post_image(500, 500) %>
                   <% end %><br>
                   <%= post.text %><br>
                   <%= post.created_at.strftime('%Y/%m/%d') %><br>

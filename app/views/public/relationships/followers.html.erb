@@ -1,8 +1,8 @@
-<div class = "container">
-  <div class = "row justify-content-center">
-    <div class = "col-md-10 mt-3">
-      <h3><strong>フォロワーリスト</strong></h3>
-      <% if @users.exists? %>
+<% if @users.exists? %>
+  <div class = "container">
+    <div class = "row justify-content-center">
+      <div class = "col-md-10 mt-3">
+        <h3><strong>フォロワーリスト</strong></h3>
         <table class="table mt-3">
           <% @users.each do |user| %>
             <tr>
