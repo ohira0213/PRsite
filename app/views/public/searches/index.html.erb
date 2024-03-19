@@ -3,9 +3,9 @@
     <div class = "row justify-content-center">
       <div class = "col-md-10">
         <% if params[:search] == "perfect_match" %>
-          <h3>「<%= params[:word] %>」のユーザーの完全一致検索結果</strong></h3>
+          <h3>「<%= params[:word] %>」のユーザー完全一致検索結果</strong></h3>
         <% elsif params[:search]  == "partial_match" %>
-          <h3>「<%= params[:word] %>」のユーザーの部分検索結果</strong></h3>
+          <h3>「<%= params[:word] %>」のユーザー部分検索結果</strong></h3>
         <% end %>
         <% if @users.empty? %>
           <div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">
@@ -50,9 +50,9 @@
     <div class = "row justify-content-center">
       <div class = "col-md-10">
         <% if params[:search] == "perfect_match" %>
-          <h3><strong>「<%= params[:word] %>」の投稿の完全一致検索結果</strong></h3>
+          <h3><strong>「<%= params[:word] %>」の投稿完全一致検索結果</strong></h3>
         <% elsif params[:search]  == "partial_match" %>
-          <h3><strong>「<%= params[:word] %>」の投稿の部分検索結果</strong></h3>
+          <h3><strong>「<%= params[:word] %>」の投稿部分検索結果</strong></h3>
         <% end %>
         <% if @posts.empty? %>
           <div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">

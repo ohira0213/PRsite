@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :edit, :update] do
       resources :requests, only: [:edit, :update]
     end
+    resources :searches, only: [:index]
   end
 
   namespace :public, path: '' do

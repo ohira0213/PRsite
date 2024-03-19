@@ -4,12 +4,15 @@
     <div class = "row justify-content-center">
       <div class = "col-md-10">
         <div class = "mt-3">
+          <div class = "mb-1">
+            <%= render "admin/searches/search" %>
+          </div>
           <h3><strong>利用者一覧</strong></h3>
           <table class = "table mt-3">
             <thead>
               <tr>
-                <th>ユーザーID</th>
-                <th>ユーザー名</th>
+                <th>ID</th>
+                <th>ご利用者様名</th>
                 <th>メールアドレス</th>
                 <th>ご利用状況</th>
               </tr>
@@ -32,7 +35,7 @@
   </div>
 <% else %>
   <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column;">
-    <h3><strong>利用者はいません。</strong></h3>
+    <h3><strong>ご利用者様はいらっしゃいません。</strong></h3>
   </div>
 <% end %>
 

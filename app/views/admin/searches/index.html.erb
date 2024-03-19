@@ -1,0 +1,44 @@
+<% if @range == "ご利用者様名" %>
+  <div class = "container mt-3">
+    <div class = "row justify-content-center">
+      <div class = "col-md-10">
+        <% if params[:search] == "perfect_match" %>
+          <h3>「<%= params[:word] %>」のご利用者様名完全一致検索結果</strong></h3>
+        <% elsif params[:search]  == "partial_match" %>
+          <h3>「<%= params[:word] %>」のご利用者様名部分検索結果</strong></h3>
+        <% end %>
+        <% if @users.empty? %>
+          <div style = "display: flex; justify-content: center; align-items: center; height: 60vh;">
+            <div style = "text-align: center;">
+              <h3><strong>該当するご利用者様はいらっしゃいません。</strong></h3>
+            </div>
+          </div>
+        <% else %>
+          <table class = "table mt-3">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>ご利用者様名</th>
+                <th>メールアドレス</th>
+                <th>ご利用状況</th>
+              </tr>
+            </thead>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.id %></td>
+                <td><%= link_to user.name, edit_admin_user_path(user), class: "text-dark" %></td>
+                <td><%= user.email.split("@").first %>@...</td>
+                <!--@までを表示し、それ以降は…で省略する-->
+                <td><strong style = "<%= user.is_active ? "color: #007bff;" : "color: #dc3545;" %>"><%= user.user_status %></strong></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class = "pagination justify-content-center">
+  <%= paginate @users %>
+</div>
