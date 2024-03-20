@@ -17,6 +17,7 @@ ja:
               taken: "すでに同じメールアドレスのユーザーが存在します。"
             password:
               blank: "を入力してください。"
+              too_short: "パスワードは%{count}文字以上で入力してください。"
             password_confirmation:
               confirmation: "パスワードが一致しません。"
   views:

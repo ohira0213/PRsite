@@ -8,7 +8,7 @@ class Admin::SearchesController < ApplicationController
       flash[:alert] = "検索ワードを入力してください。"
       redirect_to request.referer
     elsif @range == "ご利用者様名"
-      @users = User.looks(params[:search], @word).where.not(email: "guest@example.com").page(params[:page]).per(5)
+      @users = User.looks(params[:search], @word).where.not(email: "guest@example.com")
     end
   end
 

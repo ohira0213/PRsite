@@ -93,3 +93,20 @@ footer {
   background-color: #E5E5E5;
   height: 50px;
 }
+
+@media (max-width: 480px) {
+    header {
+    width:100%;
+  }
+
+  main {
+   flex-wrap:wrap;
+   width:100%;
+   display:flex;
+   justify-content:center;
+  }
+
+  footer {
+    width:100%;
+  }
+}
