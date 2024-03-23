@@ -20,7 +20,16 @@
                 <%= link_to public_post_path(favorite.post) do %>
                   <%= image_tag favorite.post.get_post_image(500, 500) %>
                 <% end %><br>
-                <%= favorite.post.text %><br>
+                <%= content_tag(:div, class: "text-wrap") do %>
+                    <% if favorite.post.text.length > 30 %>
+                      <% (favorite.post.text.length / 30.0).ceil.times do |i| %>
+                      <%= truncate(favorite.post.text[i*30, 30], length: 30).html_safe %><br>
+                    <% end %>
+                      <%= favorite.post.text[(favorite.post.text.length / 30.0).ceil * 30..-1] %>
+                    <% else %>
+                      <%= favorite.post.text %>
+                    <% end %>
+                  <% end %><br>
                 <%= favorite.post.created_at.strftime('%Y/%m/%d') %><br>
                 <%= render "public/favorites/favorite", post: favorite.post %>
                 <%= link_to public_post_path(favorite.post), class: "text-dark" do %>

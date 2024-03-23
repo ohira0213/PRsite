@@ -69,7 +69,16 @@
                     <%= image_tag post.get_post_image(50,50) %>
                   <% end %>
                 </td>
-                <td><%= post.text %></td>
+                <td>
+                  <%= content_tag(:div, class: "text-wrap") do %>
+                    <% if post.text.length > 10 %>
+                      <% truncated_text = truncate(post.text, length: 10, omission: '') %>
+                      <%= "#{truncated_text}…" %>
+                    <% else %>
+                      <%= post.text %>
+                    <% end %>
+                  <% end %>
+                </td>
                 <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
                 <td><%= render "public/favorites/favorite", post: post %></td>
                 <td>
