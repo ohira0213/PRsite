@@ -2,13 +2,19 @@ class Admin::RequestsController < ApplicationController
   before_action :authenticate_admin!
 
   def edit
-    @request = Request.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-  #指定されたuser_idが見つからない時は、nilを返す
-    @request = nil
+  @user = User.find_by(id: params[:user_id])
+  unless @user
     flash[:alert] = "該当ユーザーは存在しません。"
     redirect_to admin_root_path
+    return
   end
+
+  @request = Request.find_by(user_id: @user.id, id: params[:id])
+  unless @request
+    flash[:alert] = "該当リクエストは存在しません。"
+    redirect_to admin_root_path
+  end
+end
 
   def update
     @request = Request.find(params[:id])

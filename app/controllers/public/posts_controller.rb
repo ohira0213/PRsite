@@ -57,7 +57,7 @@ class Public::PostsController < ApplicationController
   def ensure_guest_user
     if current_user.email == "guest@example.com"
       flash[:alert] = "ゲストユーザーは一部閲覧のみ可能です。"
-      redirect_to public_posts_path
+      redirect_to request.referer
     end
   end
 
