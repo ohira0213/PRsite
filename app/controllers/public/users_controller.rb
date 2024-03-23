@@ -32,7 +32,7 @@ class Public::UsersController < ApplicationController
   rescue ActiveRecord::RecordNotFound
   #指定されたuser_idが見つからない時は、nilを返す
     @user = nil
-      flash[:alert] = "アクセスできません。"
+    flash[:alert] = "アクセスできません。"
     redirect_to public_posts_path
   end
 
@@ -42,22 +42,17 @@ class Public::UsersController < ApplicationController
       flash[:notice] = "プロフィールを変更しました。"
       redirect_to public_user_path(@user)
     else
-      if User.exists?(email: user_params[:email])
-        flash[:alert] = "メールアドレスが既に使用されています。"
-        redirect_to edit_public_user_path(@user)
-      end
       if user_params[:name].blank?
         flash[:alert] = "ユーザー名を入力してください。"
-        redirect_to edit_public_user_path(@user)
       end
       if user_params[:name].to_s.length > 10
         flash[:alert] = "ユーザー名は10文字以内で入力してください。"
-        redirect_to edit_public_user_path(@user)
       end
       if user_params[:introduction].to_s.length > 20
-        flash[:alert] = "メッセージは20文字以内で入力してください。"
-        redirect_to edit_public_user_path(@user)
+        flash[:alert] ||= ""
+        flash[:alert] += "メッセージは20文字以内で入力してください。"
       end
+      redirect_to request.referer and return if flash[:alert].present?
     end
   end
 

@@ -11,7 +11,7 @@ class Public::PostsController < ApplicationController
     @post.user_id = current_user.id
     if @post.save
       flash[:notice] = "投稿しました。"
-      redirect_to public_posts_path
+      redirect_to public_post_path(@post)
     else
       if post_params[:text].blank?
         flash[:alert] = "PR文を入力してください。"

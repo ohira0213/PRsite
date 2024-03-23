@@ -5,8 +5,6 @@
       <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 70vh; flex-direction: column;" >
         <h3><strong>プロフィール</strong></h3>
         <%= form_with model: @user, url: public_user_path(@user), method: :patch do |f| %>
-          <h6>メールアドレス</h6>
-          <%= f.text_field :email, id: "inputEmail", placeholder: "メールアドレスを入力", style: "width: 100%;" %>
           <h6>ユーザー名</h6>
           <%= f.text_field :name, autofocus: true, id: "inputName", placeholder: "ユーザー名を入力", style: "width: 100%;" %>
           <h6>メッセージ</h6>
