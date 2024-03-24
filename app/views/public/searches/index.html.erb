@@ -31,13 +31,8 @@
                   <% end %>
                 </td>
                 <td><%= user.introduction %></td>
-                <% unless user.id == current_user.id %>
-                  <% if current_user.following?(user) %>
-                    <td><%= link_to "フォロー外す", public_user_relationships_path(user), method: :delete, class: "btn btn-sm btn-dark float-right" %></td>
-                  <% else %>
-                    <td><%= link_to "フォローする", public_user_relationships_path(user), method: :post, class: "btn btn-sm btn-dark float-right" %></td>
-                  <% end %>
-                <% end %>
+                <td><%= "フォロー #{user.followings_count} 人" %></td>
+                <td><%= "フォロワー #{user.followers_count} 人" %></td>
               </tr>
             <% end %>
           </table>
@@ -80,18 +75,16 @@
                   <% end %>
                 </td>
                 <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
-                <td><%= render "public/favorites/favorite", post: post %></td>
-                <td>
-                  <%= link_to public_post_path(post), class: "text-dark" do %>
-                    <i class="fa-regular fa-comment"></i> <%= post.post_comments_count %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                    <%= f.text_area :comment, rows: "1", placeholder: "コメントを入力",style: "width: 50%;" %>
-                    <%= f.submit "送信する" %>
-                  <% end %>
-                </td>
+                <% if post.favorited_by?(current_user) %>
+                  <td class = "text-warning mr-2 fuchidori">
+                    <i class = "fa-solid fa-thumbs-up"></i> <%= post.favorites_count %>
+                  </td>
+                <% else %>
+                  <td>
+                    <i class = "fa-regular fa-thumbs-up"></i> <%= post.favorites_count %>
+                  </td>
+                <% end %>
+                <td><i class="fa-regular fa-comment"></i> <%= post.post_comments_count %></td>
               </tr>
             <% end %>
           </table>
