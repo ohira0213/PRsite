@@ -31,7 +31,9 @@
                     <% end %>
                   <% end %><br>
                 <%= favorite.post.created_at.strftime('%Y/%m/%d') %><br>
-                <%= render "public/favorites/favorite", post: favorite.post %>
+                <span id = "favorite_buttons_<%= favorite.post.id %>">
+                  <%= render "public/favorites/favorite", post: favorite.post %>
+                </span>
                 <%= link_to public_post_path(favorite.post), class: "text-dark" do %>
                   <i class="fa-regular fa-comment"></i> <%= favorite.post.post_comments_count %>
                 <% end %>

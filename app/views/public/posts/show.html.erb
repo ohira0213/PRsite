@@ -31,7 +31,9 @@
               <% end %><br>
               <%= @post.created_at.strftime('%Y/%m/%d') %><br>
               <% if current_user.email != "guest@example.com" %>
-                <%= render "public/favorites/favorite", post: @post %>
+                <span id = "favorite_buttons_<%= @post.id %>">
+                  <%= render "public/favorites/favorite", post: @post %>
+                </span>
                 <i class = "fa-regular fa-comment"></i> <%= @post.post_comments_count %>
                 <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
                   <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力",style: "width: 100%;" %>
