@@ -1,10 +1,10 @@
 <div class = "container">
   <div class = "row justify-content-center">
     <div class = "col-md-10 mt-3">
-      <h3><strong>ご利用者情報</strong></h3>
+      <h3><strong>ご利用者様情報</strong></h3>
       <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
         <div class="text-right">
-          <%= f.submit "ご利用状況を変更", class: "btn btn-danger", data: { confirm: "ご利用状況の変更を行います。よろしいでしょうか？" } %>
+          <%= f.submit "ご利用状況を変更する", class: "btn btn-danger", data: { confirm: "ご利用状況の変更を行います。よろしいでしょうか？" } %>
         </div>
         <table class = "table table-bordered mt-1">
           <tbody>
