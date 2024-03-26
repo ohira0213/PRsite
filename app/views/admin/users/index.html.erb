@@ -21,7 +21,11 @@
               <tbody>
                 <tr>
                   <td><%= user.id %></td>
+                  <% if user.email != "guest@example.com" %>
                   <td><%= link_to user.name, edit_admin_user_path(user), class: "text-dark" %></td>
+                  <% else %>
+                  <td><%= user.name %></td>
+                  <% end %>
                   <td><%= user.email.split("@").first %>@...</td>
                   <!--@までを表示し、それ以降は…で省略する-->
                   <td><strong style = "<%= user.is_active ? "color: #007bff;" : "color: #dc3545;" %>"><%= user.user_status %></strong></td>
