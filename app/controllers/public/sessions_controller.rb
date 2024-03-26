@@ -8,7 +8,7 @@ class Public::SessionsController < Devise::SessionsController
   def destroy
     sign_out(resource)
     flash[:notice] = "ログアウトしました。"
-    redirect_to user_session_path
+    redirect_to public_root_path
   end
 
   def guest_sign_in

@@ -72,7 +72,7 @@ class User < ApplicationRecord
 
   def user_status
     if is_active == true
-      "継続中"
+      "利用中"
     else
       "退会済"
     end
