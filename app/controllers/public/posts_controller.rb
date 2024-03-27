@@ -37,6 +37,8 @@ class Public::PostsController < ApplicationController
       redirect_to public_posts_path
     end
     @post_comment = PostComment.new
+    @post_comments = PostComment.joins(:user).where("users.is_active <> ? ",false)
+    @post_comments = @post.post_comments.joins(:user).where("users.is_active <> ? ", false)
   rescue ActiveRecord::RecordNotFound
   #指定されたuser_idまたはpost_idが見つからない時は、nilを返す
     @post = nil

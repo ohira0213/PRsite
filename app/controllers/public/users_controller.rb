@@ -58,7 +58,7 @@ class Public::UsersController < ApplicationController
 
   def favorite
     @user = User.find(params[:user_id])
-    @favorites = @user.favorites.order(created_at: :desc)
+    @favorites = @user.favorites.joins(:post => :user).where("users.is_active = ? AND favorites.user_id = ?", true, @user.id).order(created_at: :desc)
     if !@user.is_active? || guest_user?(@user)
       flash[:alert] = "指定されたユーザーが見つかりません。"
       redirect_to public_posts_path
@@ -72,6 +72,17 @@ class Public::UsersController < ApplicationController
   end
 
   def confirm
+    @user = User.find(params[:user_id])
+    if @user != current_user
+    #指定されたuser_idがログイン中のuser_idと異なった場合は開けない
+      flash[:alert] = "アクセスできません。"
+      redirect_to public_posts_path
+    end
+  rescue ActiveRecord::RecordNotFound
+  #指定されたuser_idが見つからない時は、nilを返す
+    @user = nil
+    flash[:alert] = "アクセスできません。"
+    redirect_to public_posts_path
   end
 
   def withdrawal
