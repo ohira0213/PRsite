@@ -28,7 +28,7 @@
                   企業様用の認証マークをご用意しております。<br>
                   ご希望の方は、右記ボタンより申請ください。
                 </h6>
-                <%= f.submit "企業認証マーク申請", class: "btn btn-dark", data: { confirm: "企業様用認証マークの申請を行います。よろしいでしょうか？" } %>
+                <%= f.submit "企業認証マーク申請", class: "btn btn-sm btn-outline-info text-dark", data: { confirm: "企業様用認証マークの申請を行います。よろしいでしょうか？" } %>
               </div>
             <% end %>
           <% end %>
@@ -40,11 +40,11 @@
                 企業様用の認証マークをご用意しております。<br>
                 ご希望の方は、右記ボタンより申請ください。
               </h6>
-              <%= f.submit "企業認証マーク申請", class: "btn btn-dark", data: { confirm: "企業様用認証マークの申請を行います。よろしいでしょうか？" } %>
+              <%= f.submit "企業認証マーク申請", class: "btn btn-sm btn-outline-info text-dark", data: { confirm: "企業様用認証マークの申請を行います。よろしいでしょうか？" } %>
             </div>
           <% end %>
         <% end %>
-        <%= link_to "退会はこちらから",  public_user_confirm_path(current_user), class: "text-danger mt-5" %>
+        <%= link_to "退会はこちらから",  public_user_confirm_path(current_user), class: "text-dark mt-5" %>
       </div>
     </div>
   </div>

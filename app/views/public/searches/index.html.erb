@@ -24,15 +24,16 @@
                 </td>
                 <td>
                   <%= user.name %>
-                  <% if user.request.present? %>
-                    <% if user.request.mark_status == "certifiable" %>
-                      <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
-                    <% end %>
+                  <% if user.request.present? && user.request.mark_status == "certifiable" %>
+                    <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
                   <% end %>
                 </td>
                 <td><%= user.introduction %></td>
-                <td><%= "フォロー #{user.followings_count} 人" %></td>
-                <td><%= "フォロワー #{user.followers_count} 人" %></td>
+                <td class = "text-right">
+                  <% unless user.id == current_user.id %>
+                    <%= render "public/relationships/relationship", user: user %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </table>
@@ -66,8 +67,8 @@
                 </td>
                 <td>
                   <%= content_tag(:div, class: "text-wrap") do %>
-                    <% if post.text.length > 10 %>
-                      <% truncated_text = truncate(post.text, length: 10, omission: '') %>
+                    <% if post.text.length > 20 %>
+                      <% truncated_text = truncate(post.text, length: 20, omission: '') %>
                       <%= "#{truncated_text}…" %>
                     <% else %>
                       <%= post.text %>
@@ -75,16 +76,6 @@
                   <% end %>
                 </td>
                 <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
-                <% if post.favorited_by?(current_user) %>
-                  <td class = "text-warning mr-2 fuchidori">
-                    <i class = "fa-solid fa-thumbs-up"></i> <%= post.favorites_count %>
-                  </td>
-                <% else %>
-                  <td>
-                    <i class = "fa-regular fa-thumbs-up"></i> <%= post.favorites_count %>
-                  </td>
-                <% end %>
-                <td><i class="fa-regular fa-comment"></i> <%= post.post_comments_count %></td>
               </tr>
             <% end %>
           </table>

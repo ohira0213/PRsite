@@ -7,16 +7,14 @@
           <tr>
             <td>
               <% if @post.user == current_user %>
-                <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "本当に削除しますか？" } %>
+                <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "削除した投稿は戻せません。よろしいでしょうか？" } %>
               <% end %>
               <%= link_to public_user_path(@post.user) do %>
                 <%= image_tag @post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
               <% end %>
               <%= @post.user.name %>
-              <% if @post.user.request.present? %>
-                <% if @post.user.request.mark_status == "certifiable" %>
-                  <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
-                <% end %>
+              <% if @post.user.request.present? && @post.user.request.mark_status == "certifiable" %>
+                <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
               <% end %><br>
               <%= image_tag @post.get_post_image(500, 500) %><br>
               <%= content_tag(:div, class: "text-wrap") do %>
@@ -34,11 +32,7 @@
                 <span id = "favorite_buttons_<%= @post.id %>">
                   <%= render "public/favorites/favorite", post: @post %>
                 </span>
-                <i class = "fa-regular fa-comment"></i> <%= @post.post_comments_count %>
-                <%= form_with url: public_post_post_comments_path(@post), model: @post_comment do |f| %>
-                  <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力",style: "width: 100%;" %>
-                  <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right"  %>
-                <% end %>
+                <%= render "public/post_comments/post_comment", post: @post, post_comment: @post_comment %>
               <% end %>
              </td>
           </tr>
@@ -46,12 +40,12 @@
             <% @post.post_comments.each do |post_comment| %>
               <tr>
                 <td>
-                  <%= image_tag post_comment.user.get_profile_image(30, 30) %>
+                  <%= image_tag post_comment.user.get_profile_image(50, 50) %>
                   <%= post_comment.user.name %><br>
                   <%= post_comment.comment %><br>
                   <%= post_comment.created_at.strftime('%Y/%m/%d') %>
                   <% if post_comment.user == current_user %>
-                    <%= link_to "コメントを削除する", public_post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "本当に削除しますか？" } %>
+                    <%= link_to "コメントを削除する", public_post_post_comment_path(post_comment.post, post_comment), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "削除したコメントは戻せません。よろしいでしょうか？" } %>
                   <% end %>
                 </td>
               </tr>

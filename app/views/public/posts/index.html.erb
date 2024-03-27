@@ -18,10 +18,8 @@
                     <%= image_tag post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
                   <% end %>
                   <%= post.user.name %>
-                  <% if post.user.request.present? %>
-                    <% if post.user.request.mark_status == "certifiable" %>
-                      <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
-                    <% end %>
+                  <% if post.user.request.present? && post.user.request.mark_status == "certifiable" %>
+                    <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
                   <% end %><br>
                   <%= link_to public_post_path(post) do %>
                     <%= image_tag post.get_post_image(500, 500) %>
@@ -41,13 +39,7 @@
                     <span id = "favorite_buttons_<%= post.id %>">
                       <%= render "public/favorites/favorite", post: post %>
                     </span>
-                    <%= link_to public_post_path(post), class: "text-dark" do %>
-                      <i class = "fa-regular fa-comment"></i> <%= post.post_comments_count %>
-                    <% end %>
-                    <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                      <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力", style: "width: 100%;" %>
-                      <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right"  %>
-                    <% end %>
+                    <%= render "public/post_comments/post_comment", post: post, post_comment: @post_comment %>
                   <% end %>
                 </td>
               </tr>

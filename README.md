@@ -34,5 +34,5 @@ IDE：Cloud9​
 使用素材<br>
 フリー素材として以下を使用<br>
 ・いらすとや（https://www.irasutoya.com/）<br>
-・ICOOON MONO(https://icooon-mono.com/)<br>
+・Loose Drawing(https://loosedrawing.com/)<br>
 ・デザインAC（https://www.design-ac.net/）

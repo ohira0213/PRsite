@@ -12,10 +12,8 @@
                   <%= image_tag favorite.post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
                 <% end %>
                 <%= favorite.post.user.name %>
-                <% if favorite.post.user.request.present? %>
-                  <% if favorite.post.user.request.mark_status == "certifiable" %>
-                    <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
-                  <% end %>
+                <% if favorite.post.user.request.present? && favorite.post.user.request.mark_status == "certifiable" %>
+                  <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
                 <% end %><br>
                 <%= link_to public_post_path(favorite.post) do %>
                   <%= image_tag favorite.post.get_post_image(500, 500) %>
@@ -34,13 +32,7 @@
                 <span id = "favorite_buttons_<%= favorite.post.id %>">
                   <%= render "public/favorites/favorite", post: favorite.post %>
                 </span>
-                <%= link_to public_post_path(favorite.post), class: "text-dark" do %>
-                  <i class="fa-regular fa-comment"></i> <%= favorite.post.post_comments_count %>
-                <% end %>
-                <%= form_with url: public_post_post_comments_path(favorite.post), model: @post_comment do |f| %>
-                  <%= f.text_area :comment, rows: "5", placeholder: "コメントを入力", style: "width: 100%;" %>
-                  <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right" %>
-                <% end %>
+                <%= render "public/post_comments/post_comment", post: favorite.post, post_comment: @post_comment %>
               </td>
             </tr>
           <% end %>

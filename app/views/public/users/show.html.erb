@@ -5,30 +5,38 @@
       <div class = "mx-auto mt-3">
         <h3 style = "display: flex; justify-content: center;"><strong>マイページ</strong></h3>
         <div class = "profile-container mt-3 mb-3">
-          <%= image_tag @user.get_profile_image(100, 100), style: "margin-right: 30px;" %>
-          <%= @user.name %>
-          <% if @user.request.present? %>
-            <% if @user.request.mark_status == "certifiable" %>
-              <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
-            <% end %>
-          <% end %><br>
-          <%= @user.introduction %><br>
+          <div>
+            <%= image_tag @user.get_profile_image(100, 100), style: "margin-right: 30px;" %>
+          </div>
+          <div>
+            <div>
+              <%= @user.name %>
+              <% if @user.request.present? && @user.request.mark_status == "certifiable" %>
+                <%= image_tag("mark.png", style: "width: 20px; height: 20px;", class: "ml-1") %>
+              <% end %>
+            </div>
+            <div>
+              <%= @user.introduction %>
+            </div>
+          </div>
         </div>
         <% if current_user.email != "guest@example.com" %>
-          <%= link_to "フォロー #{@user.followings_count} 人", public_user_followings_path(@user), class: "btn btn-sm btn-light mr-1" %>
-          <%= link_to "フォロワー #{@user.followers_count} 人", public_user_followers_path(@user), class: "btn btn-sm btn-light mr-3" %>
-          <%= link_to "GOODリスト", public_user_favorite_path(@user), class: "btn btn-sm btn-warning float-right" %>
-          <% if @user.id == current_user.id %>
-          <!-- user_idがログイン中のidだった場合は下記を表示する -->
-            <%= link_to "プロフィール", edit_public_user_path(@user), class: "btn btn-sm btn-dark float-right mr-3" %><br>
-          <% else %>
-            <% if current_user.following?(@user) %>
-              <%= link_to "フォロー外す", public_user_relationships_path(@user), method: :delete, class: "btn btn-sm btn-dark float-right mr-3" %>
+          <div class="button-container">
+            <%= link_to "フォロー #{@user.followings_count} 人", public_user_followings_path(@user), class: "text-dark" %>
+            <%= link_to "フォロワー #{@user.followers_count} 人", public_user_followers_path(@user), class: "text-dark" %>
+            <% if @user.id == current_user.id %>
+            <!-- user_idがログイン中のidだった場合は下記を表示する -->
+              <%= link_to "プロフィール", edit_public_user_path(@user), class: "btn btn-sm btn-dark" %>
             <% else %>
-              <%= link_to "フォローする", public_user_relationships_path(@user), method: :post, class: "btn btn-sm btn-dark float-right mr-3" %>
+              <%= render "public/relationships/relationship", user: @user %>
             <% end %>
-          <% end %>
+            <%= link_to "GOODリスト", public_user_favorite_path(@user), class: "btn btn-sm btn-warning" %>
+          </div>
         <% end %>
+      </div>
+    </div>
+    <div class = "row">
+      <div class = "mx-auto">
         <table class = "table mt-3">
           <% @posts.each do |post| %>
             <tr>
@@ -50,13 +58,7 @@
                 <span id = "favorite_buttons_<%= post.id %>">
                   <%= render "public/favorites/favorite", post: post %>
                 </span>
-                <%= link_to public_post_path(post), class: "text-dark" do %>
-                  <i class = "fa-regular fa-comment"></i> <%= post.post_comments_count %>
-                <% end %>
-                <%= form_with url: public_post_post_comments_path(post), model: @post_comment do |f| %>
-                  <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力", style: "width: 100%;" %>
-                  <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right" %>
-                <% end %>
+                <%= render "public/post_comments/post_comment", post: post, post_comment: @post_comment %>
               </td>
             </tr>
           <% end %>
