@@ -10,7 +10,7 @@
                 <%= link_to "投稿を削除する", public_post_path(@post), method: :delete, class: "btn btn-sm btn-danger float-right", data: { confirm: "削除した投稿は戻せません。よろしいでしょうか？" } %>
               <% end %>
               <%= link_to public_user_path(@post.user) do %>
-                <%= image_tag @post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;" %>
+                <%= image_tag @post.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;"%>
               <% end %>
               <%= @post.user.name %>
               <% if @post.user.request.present? && @post.user.request.mark_status == "certifiable" %>
@@ -41,7 +41,7 @@
               <tr>
                 <td>
                   <%= link_to public_user_path(post_comment.user) do %>
-                    <%= image_tag post_comment.user.get_profile_image(50, 50) %>
+                    <%= image_tag post_comment.user.get_profile_image(50, 50), style: "margin-bottom: 10px; margin-right: 10px;"%>
                   <% end %>
                   <%= post_comment.user.name %><br>
                   <%= post_comment.comment %><br>
