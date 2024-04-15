@@ -5,9 +5,9 @@
       <div class = "mx-auto align-items-center" style = "display: flex; justify-content: center; align-items: center; height: 70vh; flex-direction: column;" >
         <h3><strong>プロフィール</strong></h3>
         <%= form_with model: @user, url: public_user_path(@user), method: :patch do |f| %>
-          <h6>ユーザー名</h6>
+          <h6>ユーザー名(10文字以内)</h6>
           <%= f.text_field :name, autofocus: true, id: "inputName", placeholder: "ユーザー名を入力", style: "width: 100%;" %>
-          <h6>メッセージ</h6>
+          <h6>メッセージ(20文字以内)</h6>
           <%= f.text_field :introduction, autofocus: true, id: "inputIntroduction", placeholder: "メッセージを入力", style: "width: 100%;" %>
           <h6>プロフィール画像</h6>
           <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>

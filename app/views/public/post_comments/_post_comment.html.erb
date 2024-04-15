@@ -1,5 +1,5 @@
 <i class = "fa-regular fa-comment"></i> <%= post.post_comments_count %>
 <%= form_with url: public_post_post_comments_path(post), model: post_comment do |f| %>
-  <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力", style: "width: 100%;" %>
+  <%= f.text_area :comment, rows: "3", placeholder: "コメントを入力(30文字以内)", style: "width: 100%;" %>
   <%= f.submit "送信する", class: "btn btn-sm btn-dark float-right" %>
 <% end %>

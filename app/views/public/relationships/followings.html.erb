@@ -2,7 +2,7 @@
   <div class = "container">
     <div class = "row justify-content-center">
       <div class = "col-md-10 mt-3">
-        <h3><strong>フォローリスト</strong></h3>
+        <h3><strong><%= @user.name %>さんのフォローリスト</strong></h3>
         <table class="table mt-3">
           <% @users.each do |user| %>
             <tr>

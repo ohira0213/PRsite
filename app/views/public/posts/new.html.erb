@@ -5,7 +5,7 @@
       <%= form_with model: @post, url: public_posts_path, method: :post do |f| %>
         <h6>イメージ画像</h6>
         <%= f.file_field :post_image, accept: "image/*" %>
-        <h6>PR文</h6>
+        <h6>PR文(100文字以内)</h6>
         <%= f.text_area :text, rows: '5', placeholder: "PR文を入力", style: "width: 100%;" %>
         <%= f.submit "投稿する", class: "btn btn-sm btn-dark float-right" %>
       <% end %>

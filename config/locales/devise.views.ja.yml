@@ -3,7 +3,7 @@ ja:
     attributes:
       user:
         current_password: "現在のパスワード"
-        name: "ユーザー名"
+        name: "ユーザー名(10文字以内)"
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
